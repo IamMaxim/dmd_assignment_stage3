@@ -4,6 +4,7 @@ from django.utils.datastructures import MultiValueDictKeyError
 from . import sql_manager
 
 
+
 # Create your views here.
 def index(request: HttpRequest):
     query = None
