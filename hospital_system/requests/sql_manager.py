@@ -35,10 +35,10 @@ def close():
         print("PostgreSQL connection is closed")
 
 
-def execute(query: str):
+def execute(query, *args):
     try:
         cur: cursor = connection.cursor()
-        cur.execute(query)
+        cur.execute(query, args)
         record = cur.fetchall()
         connection.commit()
         cur.close()
@@ -51,6 +51,19 @@ def execute(query: str):
         # PostgreSQL connection was closed, reopen it and retry
         init()
         return execute(query)
+
+def update(query, *args):
+    try:
+        cur: cursor = connection.cursor()
+        cur.execute(query, args)
+        connection.commit()
+        cur.close()
+    except psycopg2.errors.InFailedSqlTransaction as e:
+        # We are currently if a failed transaction, rollback and retry
+        connection.rollback()
+    except psycopg2.InterfaceError as e:
+        # PostgreSQL connection was closed, reopen it and retry
+        init()
 
 
 init()

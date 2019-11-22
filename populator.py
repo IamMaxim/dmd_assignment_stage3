@@ -1,16 +1,16 @@
 import datetime
-from random import randrange
+from random import randrange, random
 
 fem_name = ['Hana', 'Zoya', 'Willie', 'Nettie', 'Kara', 'Lara', 'Halima', 'Laila', 'Alicia', 'Caroline', 'Carla',
             'Julie',
-            'Katherine', 'Holly', 'Rebekah''Lachlan', 'Lachlan', 'Millie', 'Chantelle', 'Robin', 'Aminah', 'Ashley',
+            'Katherine', 'Holly', 'Rebekah', 'Lachlan', 'Lachlan', 'Millie', 'Chantelle', 'Robin', 'Aminah', 'Ashley',
             'Fern',
             'Agnes', 'Harley', 'Rhiannon']
 male_name = ['Hamzah', 'Courtney', 'Theo', 'Victor', 'Bruce', 'Rafael', 'Barnaby', 'Anita', 'Vincent', 'Ismail',
              'Verity', 'Abby', 'Gary', 'Lewis', 'Simon', 'Jean', 'John', 'James', 'Egor', 'Nick',
              'Joseph', 'Artem', 'Peter', 'Igor', 'Alex']
 
-surname = ['Hughes', 'Cassidy', 'Farmer', 'Chavez', 'Santiago', 'Payne', 'Rice', 'Li', 'Hamilton', 'Singh', 'Simmons',
+surnames = ['Hughes', 'Cassidy', 'Farmer', 'Chavez', 'Santiago', 'Payne', 'Rice', 'Li', 'Hamilton', 'Singh', 'Simmons',
            'Little', 'Mcdaniel', 'Ramsey', 'Garner', 'Harrison', 'Fernandez', 'Strickland', 'Read', 'Gilbert', 'Owen',
            'Maxwell', 'Schwartz', 'Crawford', 'Hubbard', 'Gibbs', 'Wilkes', 'Connor', 'Lindsey', 'Greene', 'Fisher',
            'Park', 'Ortega', 'Manning', 'Logan', 'Woodward', 'Lewis', 'Huff', 'Gill', 'Terry', 'Riley', 'Powers',
@@ -21,7 +21,7 @@ staff_position = ['cleaning manager', 'accountant', 'security guard',
                   'CEO', 'HR', 'fMRI technologist', 'engineer', 'pharmacist',
                   'schedule manager', 'PR manager', 'lawyer', 'storage manager']
 
-chat_name = ['Reschedule', 'surgeons', 'nurses', 'administrative', 'hospital all']
+chat_name = ['Reschedule', 'surgeons', 'nurses', 'administrative', 'hospital all', 'NoName']
 chat_message = ['hello', 'we need help', 'Mary, come to the 338, please',
                 'We need a cleaning manager in 505',
                 'have a nice day', 'today its turkey in the canteen', 'has anyone diagnosed a new patient?',
@@ -145,62 +145,18 @@ diagnose_treatment = ['grammidin and urine test', 'painkillers and good sleeping
                       ]
 
 
-def gen_date():
-    year, month = randrange(2000, 2025), randrange(1, 12)
-    if month == 2:
-        if year % 4 == 0:
-            day = randrange(1, 29)
-        else:
-            day = randrange(1, 28)
-    elif month in [1, 3, 5, 7, 8, 10, 12]:
-        day = randrange(1, 31)
-    else:
-        day = randrange(1, 30)
-    return datetime.datetime(year, month, day)
-
-
-def check_valid_date(new_year, new_month, new_day, shift):
-    if new_month == 2:
-        if new_year % 4 == 0:
-            if shift > 29:
-                new_month += 1
-                shift -= 28
-        else:
-            if shift > 28:
-                new_month += 1
-                shift -= 27
-    elif new_month not in [1, 3, 5, 7, 8, 10, 12]:
-        if new_day == 31:
-            new_month += 1
-            shift = 1
-
-    return new_month, new_day, shift
+def gen_date(min_year=2000, max_year=datetime.datetime.now().year):
+    start = datetime.datetime(min_year, 1, 1, 00, 00, 00)
+    years = max_year - min_year + 1
+    end = start + datetime.timedelta(days=365 * years)
+    return start + (end - start) * random()
 
 
 def gen_date_later(date):
-    new_year, new_month, new_day = date.year, date.month, date.day
-    shift = randrange()
-    while shift >= 365:
-        shift -= 365
-        new_year += 1
-
-    shift += new_day
-    while shift > 31:
-        shift -= 31
-        new_month += 1
-
-    new_month, new_day, shift = check_valid_date(new_year, new_month, new_day, shift)
-
-    if new_month > 12:
-        new_year += 1
-        new_month -= 11
-
-    new_month, new_day, shift = check_valid_date(new_year, new_month, new_day, shift)
-    new_day = shift
-    return datetime.datetime(new_year, new_month, new_day)
+    return date + datetime.timedelta(days=randrange(3, 1000))
 
 
-def gen_working_hours(mode=1):
+def gen_working_hours(mode):
     if mode == 1:
         time_from = datetime.time(hour=randrange(0, 8),
                                   minute=randrange(0, 59))
@@ -220,9 +176,4 @@ def gen_working_hours(mode=1):
 
 
 def gen_boolean():
-    n = randrange()
-    n = n % 2
-    if n == 1:
-        return True
-    else:
-        return False
+    return randrange(0, 2) == 1
