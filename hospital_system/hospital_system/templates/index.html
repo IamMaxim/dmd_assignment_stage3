@@ -1,37 +1,73 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <link rel="stylesheet" type="text/css" href="../static/class.css"/>
     <meta charset="UTF-8">
     <title>Hospital System Console</title>
     <link rel="stylesheet" type="text/css" href="static/class.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/kognise/water.css@latest/dist/light.min.css">
 </head>
 <body>
-    <h1 style="text-align:center ">Hospital Management System</h1>
-    <div class= "back">
-        <div style="margin-left: 10%;">
-            <p style="margin-top: 5%">Pseudo-random population of the database</p>
-            <button class= "button" type="button">Populate</button>
-            <h2 >Query 1</h2>
-            <p >Search the Doctor's name who's name or surname is started with "L" or "M"</p>
-            <button class= "button" type="button">Select Query 1</button>
+<h1 style="text-align:center ">Hospital Management System</h1>
+<div class="container">
+    <h2>Population</h2>
+    <p>Pseudo-random population of the database</p>
+    <button class="button center-button" type="button" onclick="populate()">Populate</button>
+    <div id="populate_log" class="log-container"></div>
+    <hr>
 
-            <h2>Query 2</h2>
-            <p>Statistics on the appointments per doctors</p>
-            <button class= "button" type="button">Select Query 2</button>
-
-            <h2>Query 3</h2>
-            <p>The hospital wants to retrieve information on the patients who had an appointment during the previous month.</p>
-            <button class= "button" type="button">Select Query 3</button>
-
-            <h2>Query 4</h2>
-            <p>Project the expected monthly income if the hospital start to charge a small value from each patient.</p>
-            <button class= "button" type="button">Select Query 4</button>
-
-            <h2>Query 5</h2>
-            <p>Reward experienced and long serving doctors. </p>
-            <button class= "button" type="button">Select Query 5</button>
+    <h2>Query 1</h2>
+    <p>Search the Doctor's name who's name or surname is started with "L" or "M"</p>
+    <div class="control-group">
+        <label>
+            Full name (Name Surname)
+            <input type="text" id="fq_name">
+        </label>
+        <vr></vr>
+        <label>
+            The first letter
+            <input type="text" id="fq_fl">
+        </label>
+        <vr></vr>
+        <label>
+            The second letter
+            <input type="text" id="fq_sl">
+        </label>
     </div>
-    </div>
+    <button class="button center-button" type="button" onclick="doFirstRequest()">Select Query 1</button>
+    <div id="first_query_log" class="log-container"></div>
+    <hr>
+
+    <h2>Query 2</h2>
+    <p>Statistics on the appointments per doctors</p>
+
+    <button class="button center-button" type="button" onclick="doSecondRequest()">Select Query 2</button>
+    <div id="second_query_log" class="log-container"></div>
+    <hr>
+
+    <h2>Query 3</h2>
+    <p>The hospital wants to retrieve information on the patients who had an appointment during the previous
+        month.</p>
+    <button class="button center-button" type="button" onclick="doThirdRequest()">Select Query 3</button>
+    <div id="third_query_log" class="log-container"></div>
+    <hr>
+
+    <h2>Query 4</h2>
+    <p>Project the expected monthly income if the hospital start to charge a small value from each patient.</p>
+    <button class="button center-button" type="button" onclick="doFourthRequest()">Select Query 4</button>
+    <div id="fourth_query_log" class="log-container"></div>
+    <hr>
+
+    <h2>Query 5</h2>
+    <p>Reward experienced and long serving doctors. </p>
+    <button class="button center-button" type="button" onclick="doFifthRequest()">Select Query 5</button>
+    <div id="fifth_query_log" class="log-container"></div>
+    <hr>
+</div>
+
+<script src="static/main.js"></script>
+<script src="https://code.jquery.com/jquery-3.4.1.min.js"
+        integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+<script>window.jQuery || document.write('<script src="js/vendor/jquery-3.4.1.min.js"><\/script>')</script>
 </body>
 </html>

@@ -4,7 +4,6 @@ from psycopg2._psycopg import cursor
 
 connection: connection = None
 
-
 def init():
     try:
         global connection
