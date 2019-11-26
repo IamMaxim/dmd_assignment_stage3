@@ -1,4 +1,4 @@
-insert into ambulance values (assigned, amd_id, specialization, location);
+insert into ambulance values (assigned, amb_id, specialization, location);
 insert into appointment values (patient_id, rec_id, doctor_id, ap_id, date_and_time);
 insert into chat values (name);
 insert into chat_receptionist values (id, chat_id, receptionist_id);
@@ -17,7 +17,7 @@ insert into receptionist values (rec_id, name, working_hours);
 insert into receptionist_ambulance values (id, ambulance_id, receptionist_id);
 insert into receptionist_patient values (id, patient_id, receptionist_id);
 insert into staff values (st_id, position);
-insert into staff_chat values (id, chat_id, staff_id);
+insert into staff_chat values (id, chat_name, staff_id);
 insert into staff_inventory values (id ,staff_id, inventory_id);
 insert into suppliers values (id, item_id, supplier, price_to_buy);
 

@@ -233,7 +233,7 @@ CREATE TABLE if not exists RECEPTIONIST_AMBULANCE
     ambulance_id    bigint(20) unsigned NOT NULL,
     receptionist_id bigint(20) unsigned NOT NULL,
     FOREIGN KEY (ambulance_id)
-        REFERENCES AMBULANCE (amd_id)
+        REFERENCES AMBULANCE (amb_id)
         ON DELETE CASCADE,
     FOREIGN KEY (receptionist_id)
         REFERENCES RECEPTIONIST (rec_id)
