@@ -194,7 +194,7 @@ print("Added", num_of_rec, "to RECEPTIONIST")
 
 # Filling APPOINTMENT
 
-num_of_app = randint(100, 200)
+num_of_app = randint(1000, 2000)
 for app in range(1, num_of_app + 1):
     ins_patient_id = randint(1, num_of_patients)
     ins_rec_id = randint(1, num_of_rec)
