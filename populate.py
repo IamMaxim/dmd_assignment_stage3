@@ -192,7 +192,7 @@ print("Added", num_of_doctors, "to DOCTOR")
 
 # ==> Filling AMBULANCE
 num_of_amb = randint(5, 10)
-amb_ids = list[range(num_of_amb)]
+amb_ids = []
 for amb in range(num_of_amb):
     ins_assigned = gen_boolean()
 
@@ -203,6 +203,8 @@ for amb in range(num_of_amb):
     f.write("INSERT INTO ambulance(assigned, specialization, location) VALUES (%s, %s, %s);" % (ins_assigned,
                                                                                                 ins_specialization,
                                                                                                 ins_location))
+    if not ins_assigned:
+        amb_ids = amb_ids.append(amb)
 
 print('\n')
 print("Added", num_of_amb, "to AMBULANCE")
@@ -287,7 +289,8 @@ for chat_id in range(num_of_staff_chat):
     chat_names.remove(chat_name)
     added_chat_names.append(chat_name)
 
-    staff_ids = sample(execute("SELECT st_id FROM staff"), num_of_staff // 2)
+    # staff_ids = sample(execute("SELECT st_id FROM staff"), num_of_staff // 2)
+    staff_ids = sample(staff_ids, num_of_staff // 2)
 
     for id in staff_ids:
         f.write("INSERT INTO staff_chat(chat_id, staff_id) VALUES (%s, %s);" % (chat_id, id[0]))
@@ -306,7 +309,8 @@ for chat_id in range(num_of_doctor_chat):
 
     ins_chat_id = curr_chat_name
 
-    doctor_ids = sample(execute("SELECT id FROM doctor"), num_of_doctors // 2)
+    # doctor_ids = sample(execute("SELECT id FROM doctor"), num_of_doctors // 2)
+    doctor_ids = sample(doc_ids, num_of_doctors // 2)
     for id in doctor_ids:
         f.write("INSERT INTO doctor_chat(chat_id, doctor_id) VALUES (%s, %s);" % (ins_chat_id, id[0]))
 
@@ -324,7 +328,8 @@ for chat_id in range(num_of_rec_chat):
 
     ins_chat_id = curr_chat_name
 
-    rec_ids = sample(execute("SELECT rec_id FROM receptionist"), num_of_rec // 2)
+    # rec_ids = sample(execute("SELECT rec_id FROM receptionist"), num_of_rec // 2)
+    rec_ids = sample(rec_ids, num_of_rec // 2)
     for id in rec_ids:
         f.write("INSERT INTO chat_receptionist(chat_id, receptionist_id) VALUES (%s, %s);" % (ins_chat_id, id[0]))
 
@@ -346,7 +351,8 @@ for chat_id in range(num_of_chats):
 f.write('\n')
 
 # ==> Filling RECEPTIONIST_AMBULANCE
-busy_ambs = execute("SELECT amb_id FROM ambulance WHERE assigned=false")
+# busy_ambs = execute("SELECT amb_id FROM ambulance WHERE assigned=false")
+busy_ambs = amb_ids
 num_of_rec_amb = len(busy_ambs)
 for rec_amb in range(num_of_rec_amb):
     ins_ambulance_id = busy_ambs[rec_amb][0]
