@@ -1,6 +1,6 @@
+from hospital_system.requests.sql_manager import update, execute
 from populator import *
 from random import *
-from hospital_system.requests.sql_manager import *
 
 update(open('SQL/table_creation.sql', 'r').read())
 
@@ -135,8 +135,14 @@ print("Finished filling SUPPLIERS")
 num_of_staff = randint(20, 30)
 for staff in range(1, num_of_staff + 1):
     ins_staff_position = choice(staff_position)
+    ins_sex = gen_boolean()
 
-    update("INSERT INTO staff(position) VALUES (%s)", ins_staff_position)
+    if ins_sex:
+        staff_name = choice(fem_name) + ' ' + choice(surnames)
+    else:
+        staff_name = choice(male_name) + ' ' + choice(surnames)
+
+    update("INSERT INTO staff(position) VALUES (%s, %s )", ins_staff_position, staff_name)
 
 print("Added", num_of_staff, "to STAFF")
 
