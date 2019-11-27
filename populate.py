@@ -9,14 +9,14 @@ from random import *
 # todo dictionary key - digital medical file, value - patiente id
 
 # implemented line 49
-medfile_vs_patient = {}
+medfile_against_patient = {}
 
 # update(open('SQL/table_creation.sql', 'r').read())
 
 # ==> Filling PATIENT
 num_of_patients = 200
 
-f = open("insert_script.txt", "w+")
+f = open("insert_script.sql", "w+")
 
 for patient in range(num_of_patients):
     ins_sex = gen_boolean()
@@ -28,7 +28,7 @@ for patient in range(num_of_patients):
 
     ins_age = randint(0, 100)
 
-    f.write("INSERT INTO patient(age, sex, full_name) VALUES (%s, %s, %s);" % (ins_age, ins_sex, ins_full_name))
+    f.write("INSERT INTO patient(age, sex, full_name) VALUES (%s, %s, %s);\n" % (ins_age, ins_sex, ins_full_name))
 
 f.write('\n')
 print("Added", num_of_patients, "to PATIENT")
@@ -48,10 +48,9 @@ for curr_patient in range(num_of_patients):
         ins_patient_id = curr_patient
 
 # dictionary
-        medfile_vs_patient[curr_patient] = ins_patient_id
+        medfile_against_patient[curr_patient] = ins_patient_id
 
-        f.write(
-            "INSERT INTO digital_medical_file(date_of_creation, patient_id) VALUES (%s, %s);" % (ins_date_of_creation,
+        f.write("INSERT INTO digital_medical_file(date_of_creation, patient_id) VALUES (%s, %s);\n" % (ins_date_of_creation,
                                                                                                  ins_patient_id))
 
     # Filling NUMBERS_OF_PREV_MEDICAL_FILES
@@ -61,7 +60,7 @@ for curr_patient in range(num_of_patients):
         ins_prev_file_id = choice(reg_numbers[1:])
         num_of_prev_medical_files += 1
 
-        f.write("INSERT INTO numbers_of_prev_medical_files(file_id, prev_file_id) VALUES (%s, %s);" % (ins_file_id,
+        f.write("INSERT INTO numbers_of_prev_medical_files(file_id, prev_file_id) VALUES (%s, %s);\n" % (ins_file_id,
                                                                                                        ins_prev_file_id))
 
 f.write('\n')
@@ -83,12 +82,11 @@ for curr_reg_number in range(num_of_reg_number):
         # ins_patient_id = execute("SELECT patient_id FROM digital_medical_file WHERE reg_number=%s", curr_reg_number)[0][
         #     0]
 
-        ins_patient_id = medfile_vs_patient.get(curr_reg_number)
+        ins_patient_id = medfile_against_patient.get(curr_reg_number)
 
         ins_treatment = choice(diagnose_treatment)
 
-        f.write(
-            "INSERT INTO diagnose(name, found_date, get_well_date, reg_number, patient_id, treatment) VALUES (%s, %s, %s, %s, %s, %s);" %
+        f.write("INSERT INTO diagnose(name, found_date, get_well_date, reg_number, patient_id, treatment) VALUES (%s, %s, %s, %s, %s, %s);\n" %
             (ins_id, ins_found_date, ins_get_well_date, ins_reg_number, ins_patient_id, ins_treatment))
 
 print("Finished filling DIAGNOSE")
@@ -109,10 +107,9 @@ for curr_reg_number in range(num_of_reg_number):
         # ins_patient_id = execute("SELECT patient_id FROM digital_medical_file WHERE reg_number=%s", curr_reg_number)[0][
         #     0]
 
-        ins_patient_id = medfile_vs_patient.get(curr_reg_number)
+        ins_patient_id = medfile_against_patient.get(curr_reg_number)
 
-        f.write(
-            "INSERT INTO med_test(collection_date, results_available, results, reg_number, patient_id) VALUES (%s, %s, %s, %s, %s);" %
+        f.write("INSERT INTO med_test(collection_date, results_available, results, reg_number, patient_id) VALUES (%s, %s, %s, %s, %s);\n" %
             (ins_collection_date, ins_results_available, ins_results, ins_reg_number, ins_patient_id))
 
 print("Finished filling MED_TEST")
@@ -129,8 +126,7 @@ for inventory in range(num_of_inventory):
 
     ins_instruction = choice(inventory_instruction)
 
-    f.write(
-        "INSERT INTO inventory(name, price_to_sell, instruction) VALUES (%s, %s, %s);" % (ins_id, ins_price_to_sell,
+    f.write("INSERT INTO inventory(name, price_to_sell, instruction) VALUES (%s, %s, %s);\n" % (ins_id, ins_price_to_sell,
                                                                                           ins_instruction))
 
 f.write('\n')
@@ -144,8 +140,7 @@ for inventory in range(num_of_inventory):
         ins_supplier = choice(inventory_supplier)
         ins_price_to_buy = randint(3, 100)
 
-        f.write(
-            "INSERT INTO suppliers(item_id, supplier, price_to_buy) VALUES (%s, %s, %s);" % (ins_item_id, ins_supplier,
+        f.write("INSERT INTO suppliers(item_id, supplier, price_to_buy) VALUES (%s, %s, %s);\n" % (ins_item_id, ins_supplier,
                                                                                              ins_price_to_buy))
 
 f.write('\n')
@@ -163,7 +158,7 @@ for staff in range(num_of_staff):
     else:
         staff_name = choice(male_name) + ' ' + choice(surnames)
 
-    f.write("INSERT INTO staff(position) VALUES (%s, %s );" % (ins_staff_position, staff_name))
+    f.write("INSERT INTO staff(position) VALUES (%s, %s );\n" % (ins_staff_position, staff_name))
 
 f.write('\n')
 print("Added", num_of_staff, "to STAFF")
@@ -184,7 +179,7 @@ for doctor in range(num_of_doctors):
 
     ins_license_id = randint(100000, 999999)
 
-    f.write("INSERT INTO doctor(working_hours, specialization, name, license_id) VALUES (%s, %s, %s, %s);" %
+    f.write("INSERT INTO doctor(working_hours, specialization, name, license_id) VALUES (%s, %s, %s, %s);\n" %
             (ins_working_hours, ins_specialization, ins_full_name, ins_license_id))
 
 f.write('\n')
@@ -200,7 +195,7 @@ for amb in range(num_of_amb):
 
     ins_location = choice(amb_loc)
 
-    f.write("INSERT INTO ambulance(assigned, specialization, location) VALUES (%s, %s, %s);" % (ins_assigned,
+    f.write("INSERT INTO ambulance(assigned, specialization, location) VALUES (%s, %s, %s);\n" % (ins_assigned,
                                                                                                 ins_specialization,
                                                                                                 ins_location))
     if not ins_assigned:
@@ -221,7 +216,7 @@ for rec in range(num_of_rec):
     working_hours_from, working_hours_to = gen_working_hours(randint(1, 3))
     ins_working_hours = working_hours_from.strftime('%H:%M:%S') + "; " + working_hours_to.strftime('%H:%M:%S')
 
-    f.write("INSERT INTO receptionist(name, working_hours) VALUES (%s, %s);" % (ins_id, ins_working_hours))
+    f.write("INSERT INTO receptionist(name, working_hours) VALUES (%s, %s);\n" % (ins_id, ins_working_hours))
 
 f.write('\n')
 print("Added", num_of_rec, "to RECEPTIONIST")
@@ -234,7 +229,7 @@ for app in range(num_of_app):
     ins_doctor_id = randint(1, num_of_doctors)
     ins_date_and_time = gen_date()
 
-    f.write("INSERT INTO appointment(patient_id, rec_id, doctor_id, date_and_time) VALUES (%s, %s, %s, %s);" %
+    f.write("INSERT INTO appointment(patient_id, rec_id, doctor_id, date_and_time) VALUES (%s, %s, %s, %s);\n" %
             (ins_patient_id, ins_rec_id, ins_doctor_id, ins_date_and_time))
 
 f.write('\n')
@@ -247,7 +242,7 @@ for inv in range(num_of_staff_inv):
 
     ins_inventory_id = randint(0, num_of_inventory)
 
-    f.write("INSERT INTO staff_inventory(staff_id, inventory_id) VALUES (%s, %s);" % (ins_staff_id, ins_inventory_id))
+    f.write("INSERT INTO staff_inventory(staff_id, inventory_id) VALUES (%s, %s);\n" % (ins_staff_id, ins_inventory_id))
 
 print("Added", num_of_staff_inv, "to STAFF_INVENTORY")
 f.write('\n')
@@ -259,8 +254,7 @@ for inv in range(num_of_pat_inv):
 
     ins_inventory_id = randint(1, num_of_inventory)
 
-    f.write(
-        "INSERT INTO patient_inventory(patient_id, inventory_id) VALUES (%s, %s);" % (ins_patient_id, ins_inventory_id))
+    f.write("INSERT INTO patient_inventory(patient_id, inventory_id) VALUES (%s, %s);\n" % (ins_patient_id, ins_inventory_id))
 
 f.write('\n')
 print("Added", num_of_pat_inv, "to PATIENT_INVENTORY")
@@ -272,8 +266,7 @@ for inv in range(num_of_doc_inv):
 
     ins_inventory_id = randint(1, num_of_inventory)
 
-    f.write(
-        "INSERT INTO doctor_inventory(doctor_id, inventory_id) VALUES (%s, %s);" % (ins_doctor_id, ins_inventory_id))
+    f.write("INSERT INTO doctor_inventory(doctor_id, inventory_id) VALUES (%s, %s);\n" % (ins_doctor_id, ins_inventory_id))
 
 f.write('\n')
 print("Added", num_of_doc_inv, "to DOCTOR_INVENTORY")
@@ -285,7 +278,7 @@ added_chat_names = []
 num_of_staff_chat = randint(1, 2)
 for chat_id in range(num_of_staff_chat):
     chat_name = choice(chat_names)
-    f.write("INSERT INTO chat(name) VALUES (%s);" % chat_name)
+    f.write("INSERT INTO chat(name) VALUES (%s);\n" % chat_name)
     chat_names.remove(chat_name)
     added_chat_names.append(chat_name)
 
@@ -293,7 +286,7 @@ for chat_id in range(num_of_staff_chat):
     staff_ids = sample(staff_ids, num_of_staff // 2)
 
     for id in staff_ids:
-        f.write("INSERT INTO staff_chat(chat_id, staff_id) VALUES (%s, %s);" % (chat_id, id))
+        f.write("INSERT INTO staff_chat(chat_id, staff_id) VALUES (%s, %s);\n" % (chat_id, id))
 
 f.write('\n')
 print("Added", num_of_staff_chat, "to STAFF_CHAT")
@@ -303,7 +296,7 @@ print("Added", num_of_staff_chat, "to STAFF_CHAT")
 num_of_doctor_chat = randint(1, 2)
 for chat_id in range(num_of_doctor_chat):
     curr_chat_name = choice(chat_names)
-    f.write("INSERT INTO chat(name) VALUES (%s);" % curr_chat_name)
+    f.write("INSERT INTO chat(name) VALUES (%s);\n" % curr_chat_name)
     chat_names.remove(curr_chat_name)
     added_chat_names.append(curr_chat_name)
 
@@ -312,7 +305,7 @@ for chat_id in range(num_of_doctor_chat):
     # doctor_ids = sample(execute("SELECT id FROM doctor"), num_of_doctors // 2)
     doctor_ids = sample(doc_ids, num_of_doctors // 2)
     for id in doctor_ids:
-        f.write("INSERT INTO doctor_chat(chat_id, doctor_id) VALUES (%s, %s);" % (ins_chat_id, id))
+        f.write("INSERT INTO doctor_chat(chat_id, doctor_id) VALUES (%s, %s);\n" % (ins_chat_id, id))
 
 print("Added", num_of_doctor_chat, "to DOCTOR_CHAT")
 f.write('\n')
@@ -322,7 +315,7 @@ f.write('\n')
 num_of_rec_chat = randint(1, 2)
 for chat_id in range(num_of_rec_chat):
     curr_chat_name = choice(chat_names)
-    f.write("INSERT INTO chat(name) VALUES (%s);" % curr_chat_name)
+    f.write("INSERT INTO chat(name) VALUES (%s);\n" % curr_chat_name)
     chat_names.remove(curr_chat_name)
     added_chat_names.append(curr_chat_name)
 
@@ -331,7 +324,7 @@ for chat_id in range(num_of_rec_chat):
     # rec_ids = sample(execute("SELECT rec_id FROM receptionist"), num_of_rec // 2)
     rec_ids = sample(rec_ids, num_of_rec // 2)
     for id in rec_ids:
-        f.write("INSERT INTO chat_receptionist(chat_id, receptionist_id) VALUES (%s, %s);" % (ins_chat_id, id))
+        f.write("INSERT INTO chat_receptionist(chat_id, receptionist_id) VALUES (%s, %s);\n" % (ins_chat_id, id))
 
 num_of_chats = num_of_staff_chat + num_of_doctor_chat + num_of_rec_chat
 f.write('\n')
@@ -346,7 +339,7 @@ for chat_id in range(num_of_chats):
     for message in range(0, num_of_messages):
         ins_messages = choice(chat_message)
 
-        f.write("INSERT INTO messages(messages, chat_id) VALUES (%s, %s);" % (ins_messages, ins_id))
+        f.write("INSERT INTO messages(messages, chat_id) VALUES (%s, %s);\n" % (ins_messages, ins_id))
 
 f.write('\n')
 
@@ -358,7 +351,7 @@ for amb_i in range(num_of_rec_amb):
     ins_ambulance_id = busy_ambs[amb_i]
     ins_receptionist_id = randint(0, num_of_rec)  # choice(execute("SELECT rec_id FROM receptionist"))[0][0]
 
-    f.write("INSERT INTO receptionist_ambulance(ambulance_id, receptionist_id) VALUES (%s, %s);" % (ins_ambulance_id,
+    f.write("INSERT INTO receptionist_ambulance(ambulance_id, receptionist_id) VALUES (%s, %s);\n" % (ins_ambulance_id,
                                                                                                     ins_receptionist_id))
 
 print("Finished filling RECEPTIONIST_AMBULANCE")
@@ -370,7 +363,7 @@ for rec_pat in range(num_of_rec_pat):
     ins_patient_id = randint(0, num_of_patients)
     ins_receptionist_id = randint(0, num_of_rec)
 
-    f.write("INSERT INTO receptionist_patient(patient_id, receptionist_id) VALUES (%s, %s);" % (ins_patient_id,
+    f.write("INSERT INTO receptionist_patient(patient_id, receptionist_id) VALUES (%s, %s);\n" % (ins_patient_id,
                                                                                                 ins_receptionist_id))
 
 print("Finished filling RECEPTIONIST_PATIENT")
