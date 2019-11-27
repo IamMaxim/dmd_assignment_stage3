@@ -80,7 +80,10 @@ for curr_reg_number in range(num_of_reg_number):
 
         ins_reg_number = curr_reg_number
 
-        ins_patient_id = execute("SELECT patient_id FROM digital_medical_file WHERE reg_number=%s", curr_reg_number)[0][0]
+        # ins_patient_id = execute("SELECT patient_id FROM digital_medical_file WHERE reg_number=%s", curr_reg_number)[0][
+        #     0]
+
+        ins_patient_id = medfile_vs_patient.get(curr_reg_number)
 
         ins_treatment = choice(diagnose_treatment)
 
@@ -103,8 +106,10 @@ for curr_reg_number in range(num_of_reg_number):
 
         ins_reg_number = curr_reg_number
 
-        ins_patient_id = execute("SELECT patient_id FROM digital_medical_file WHERE reg_number=%s", curr_reg_number)[0][
-            0]
+        # ins_patient_id = execute("SELECT patient_id FROM digital_medical_file WHERE reg_number=%s", curr_reg_number)[0][
+        #     0]
+
+        ins_patient_id = medfile_vs_patient.get(curr_reg_number)
 
         f.write(
             "INSERT INTO med_test(collection_date, results_available, results, reg_number, patient_id) VALUES (%s, %s, %s, %s, %s);" %
@@ -283,6 +288,7 @@ for chat_id in range(num_of_staff_chat):
     added_chat_names.append(chat_name)
 
     staff_ids = sample(execute("SELECT st_id FROM staff"), num_of_staff // 2)
+
     for id in staff_ids:
         f.write("INSERT INTO staff_chat(chat_id, staff_id) VALUES (%s, %s);" % (chat_id, id[0]))
 
