@@ -11,17 +11,16 @@ male_name = ['Hamzah', 'Courtney', 'Theo', 'Victor', 'Bruce', 'Rafael', 'Barnaby
              'Joseph', 'Artem', 'Peter', 'Igor', 'Alex']
 
 surnames = ['Hughes', 'Cassidy', 'Farmer', 'Chavez', 'Santiago', 'Payne', 'Rice', 'Li', 'Hamilton', 'Singh', 'Simmons',
-           'Little', 'Mcdaniel', 'Ramsey', 'Garner', 'Harrison', 'Fernandez', 'Strickland', 'Read', 'Gilbert', 'Owen',
-           'Maxwell', 'Schwartz', 'Crawford', 'Hubbard', 'Gibbs', 'Wilkes', 'Connor', 'Lindsey', 'Greene', 'Fisher',
-           'Park', 'Ortega', 'Manning', 'Logan', 'Woodward', 'Lewis', 'Huff', 'Gill', 'Terry', 'Riley', 'Powers',
-           'Cole', 'Flores', 'Huang', 'Barrett', 'Cannon', 'Carr']
-
+            'Little', 'Mcdaniel', 'Ramsey', 'Garner', 'Harrison', 'Fernandez', 'Strickland', 'Read', 'Gilbert', 'Owen',
+            'Maxwell', 'Schwartz', 'Crawford', 'Hubbard', 'Gibbs', 'Wilkes', 'Connor', 'Lindsey', 'Greene', 'Fisher',
+            'Park', 'Ortega', 'Manning', 'Logan', 'Woodward', 'Lewis', 'Huff', 'Gill', 'Terry', 'Riley', 'Powers',
+            'Cole', 'Flores', 'Huang', 'Barrett', 'Cannon', 'Carr']
 
 staff_position = ['cleaning manager', 'accountant', 'security guard',
                   'CEO', 'HR', 'fMRI technologist', 'engineer', 'pharmacist',
                   'schedule manager', 'PR manager', 'lawyer', 'storage manager']
 
-chat_name = ['Reschedule', 'surgeons', 'nurses', 'administrative', 'hospital all', 'NoName']
+chat_names = ['Reschedule', 'Surgeons', 'Nurses', 'Administrative', 'All hospital staff', 'Some stuff']
 chat_message = ['hello', 'we need help', 'Mary, come to the 338, please',
                 'We need a cleaning manager in 505',
                 'have a nice day', 'today its turkey in the canteen', 'has anyone diagnosed a new patient?',
@@ -53,7 +52,6 @@ amb_loc = [
     'Mcleod\'s Mews', 'Stanford Esplanade', 'Lavender Bank', 'Neville Banks', 'Belvoir Brae', 'Sherborne Downs',
     'Links Paddock', 'Davies Promenade']
 
-
 doc_specialization = ['Family Physician', 'Internal Medicine Physician', 'Pediatrician',
                       'Obstetrician/Gynecologist (OB/GYN)', 'Surgeon', 'Psychiatrist', 'Cardiologist', 'Dermatologist',
                       'Endocrinologist', 'Gastroenterologist', 'Infectious Disease Physician', 'Nephrologist',
@@ -83,8 +81,8 @@ inventory_instruction = [
          levels. To minimize these potential side effects, corticosteroids are prescribed in the\
           lowest dose possible for as short of a length of time as needed to relieve the pain.',
 
-     'Oral-Adults: 1 to 2 tablets, 3 times daily Children (over 6 years):\
-      1/2 to 1 tablet, 1-2 times daily.Children (1-6 years): 1/4 to 1/2 tablet, 1-2 times daily.',
+    'Oral-Adults: 1 to 2 tablets, 3 times daily Children (over 6 years):\
+     1/2 to 1 tablet, 1-2 times daily.Children (1-6 years): 1/4 to 1/2 tablet, 1-2 times daily.',
 
     'Injection-Adults: 1 to 2 ampoules, intramuscularly or subcutaneously, 1-3 times daily.\
     For the management of acute stone colics: 1 or 2 ampoules by slow intravenous injection.',

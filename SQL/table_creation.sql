@@ -1,5 +1,5 @@
--- DROP SCHEMA public CASCADE;
--- CREATE SCHEMA public;
+DROP SCHEMA public CASCADE;
+CREATE SCHEMA public;
 
 CREATE TABLE if not exists PATIENT
 (
@@ -96,10 +96,10 @@ CREATE TABLE if not exists MESSAGES
     id       serial UNIQUE NOT NULL,
     messages varchar(1024),
     chat_id int NOT NULL,
-    FOREIGN KEY (name)
+    FOREIGN KEY (chat_id)
         REFERENCES CHAT (chat_id)
 	      ON DELETE CASCADE,
-    PRIMARY KEY (id, name)
+    PRIMARY KEY (id, chat_id)
 );
 
 CREATE TABLE if not exists DOCTOR
@@ -114,7 +114,7 @@ CREATE TABLE if not exists DOCTOR
 CREATE TABLE if not exists AMBULANCE
 (
     assigned       boolean      NOT NULL,
-    amd_id         serial PRIMARY KEY,
+    amb_id         serial PRIMARY KEY,
     specialization varchar(255) NOT NULL,
     location       varchar(255) NOT NULL
 );
@@ -220,7 +220,7 @@ CREATE TABLE if not exists CHAT_RECEPTIONIST
     id              serial UNIQUE NOT NULL,
     chat_id         int  NOT NULL,
     FOREIGN KEY (chat_id)
-        REFERENCES CHAT (chat-id)
+        REFERENCES CHAT (chat_id)
 	      ON DELETE CASCADE,
     receptionist_id int           NOT NULL,
     FOREIGN KEY (receptionist_id)
@@ -234,7 +234,7 @@ CREATE TABLE if not exists RECEPTIONIST_AMBULANCE
     id              serial UNIQUE NOT NULL,
     ambulance_id    int           NOT NULL,
     FOREIGN KEY (ambulance_id)
-        REFERENCES AMBULANCE (amd_id)
+        REFERENCES AMBULANCE (amb_id)
 	      ON DELETE CASCADE,
     receptionist_id int           NOT NULL,
     FOREIGN KEY (receptionist_id)
