@@ -300,28 +300,32 @@ added_chat_names = []
 
 # ==> Filling CHAT
 # ==> Filling STAFF_CHAT
-num_of_staff_chat = randint(1, 2)
+cur_chat_id = 1
+num_of_staff_chat = randint(1, 5)
+chat_ids = list(range(1, num_of_staff_chat+1))
 for chat_id in range(1, num_of_staff_chat + 1):
     chat_name = choice(chat_names)
-    f.write("INSERT INTO chat(name) VALUES ('%s');\n" % chat_name)
+    f.write("INSERT INTO chat(chat_id, name) VALUES (%s,'%s');\n" % (cur_chat_id, chat_name))
     chat_names.remove(chat_name)
     added_chat_names.append(chat_name)
-
     # staff_ids = sample(execute("SELECT st_id FROM staff"), num_of_staff // 2)
     staff_ids1 = sample(staff_ids, num_of_staff // 2)
 
     for id in staff_ids1:
-        f.write("INSERT INTO staff_chat(chat_id, staff_id) VALUES (%s, %s);\n" % (chat_id, id))
+        if gen_boolean():
+            f.write("INSERT INTO staff_chat(chat_id, staff_id) VALUES (%s, %s);\n" % (cur_chat_id, id))
+
+    cur_chat_id += 1
 
 f.write('\n')
 print("Added", num_of_staff_chat, "to STAFF_CHAT")
 
 # ==> Filling CHAT
 # ==> Filling DOCTOR_CHAT
-num_of_doctor_chat = randint(1, 2)
+num_of_doctor_chat = randint(1, 5)
 for chat_id in range(num_of_doctor_chat):
     curr_chat_name = choice(chat_names)
-    f.write("INSERT INTO chat(name) VALUES ('%s');\n" % curr_chat_name)
+    f.write("INSERT INTO chat(chat_id, name) VALUES (%s, '%s');\n" % (cur_chat_id, curr_chat_name))
     chat_names.remove(curr_chat_name)
     added_chat_names.append(curr_chat_name)
 
@@ -330,7 +334,10 @@ for chat_id in range(num_of_doctor_chat):
     # doctor_ids = sample(execute("SELECT id FROM doctor"), num_of_doctors // 2)
     doctor_ids = sample(doc_ids, num_of_doctors // 2)
     for id in doctor_ids:
-        f.write("INSERT INTO doctor_chat(chat_id, doctor_id) VALUES ('%s', %s);\n" % (ins_chat_id, id))
+        if gen_boolean():
+            f.write("INSERT INTO doctor_chat(chat_id, doctor_id) VALUES (%s, %s);\n" % (cur_chat_id, id))
+
+    cur_chat_id += 1
 
 print("Added", num_of_doctor_chat, "to DOCTOR_CHAT")
 f.write('\n')
@@ -340,7 +347,7 @@ f.write('\n')
 num_of_rec_chat = randint(1, 2)
 for chat_id in range(num_of_rec_chat):
     curr_chat_name = choice(chat_names)
-    f.write("INSERT INTO chat(name) VALUES ('%s');\n" % curr_chat_name)
+    f.write("INSERT INTO chat(chat_id, name) VALUES (%s, '%s');\n" % (cur_chat_id, curr_chat_name))
     chat_names.remove(curr_chat_name)
     added_chat_names.append(curr_chat_name)
 
@@ -349,7 +356,9 @@ for chat_id in range(num_of_rec_chat):
     # rec_ids = sample(execute("SELECT rec_id FROM receptionist"), num_of_rec // 2)
     rec_ids = sample(rec_ids, num_of_rec // 2)
     for id in rec_ids:
-        f.write("INSERT INTO chat_receptionist(chat_id, receptionist_id) VALUES ('%s', '%s');\n" % (ins_chat_id, id))
+        if gen_boolean():
+            f.write("INSERT INTO chat_receptionist(chat_id, receptionist_id) VALUES ('%s', '%s');\n" % (cur_chat_id, id))
+    cur_chat_id +=1
 
 num_of_chats = num_of_staff_chat + num_of_doctor_chat + num_of_rec_chat
 f.write('\n')
