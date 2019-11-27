@@ -357,7 +357,7 @@ print("Added", num_of_rec_chat, "to CHAT_RECEPTIONIST")
 print("Added", num_of_chats, "to CHAT")
 
 # ==> Filling MESSAGES
-for chat_id in range(num_of_chats):
+for chat_id in range(1, num_of_chats + 1):
     ins_id = chat_id
     num_of_messages = randint(0, 7)
 
@@ -386,7 +386,7 @@ f.write('\n')
 num_of_rec_pat = randint(num_of_patients // 2, num_of_patients)
 for rec_pat in range(num_of_rec_pat):
     ins_patient_id = randint(1, num_of_patients + 1)
-    ins_receptionist_id = randint(0, num_of_rec)
+    ins_receptionist_id = randint(1, num_of_rec + 1)
 
     f.write("INSERT INTO receptionist_patient(patient_id, receptionist_id) VALUES (%s, %s);\n" % (ins_patient_id,
                                                                                                   ins_receptionist_id))
