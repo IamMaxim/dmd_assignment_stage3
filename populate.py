@@ -34,14 +34,14 @@ f.write('\n')
 print("Added", num_of_patients, "to PATIENT")
 
 # ==> Filling DIGITAL_MEDICAL_FILE
-num_of_reg_number = 1
+num_of_reg_number = 0
 num_of_prev_medical_files = 0
 for curr_patient in range(1, num_of_patients + 1):
     reg_numbers = []
     num_of_files = randint(2, 4)
     for file in range(num_of_files):
-        reg_numbers.append(num_of_reg_number)
         num_of_reg_number += 1
+        reg_numbers.append(num_of_reg_number)
 
         ins_date_of_creation = gen_date()
 
@@ -155,7 +155,7 @@ f.write('\n')
 print("Added", num_of_inventory, "to INVENTORY")
 
 # ==> Filling SUPPLIERS
-for inventory in range(num_of_inventory):
+for inventory in range(1, num_of_inventory + 1):
     num_of_suppliers = randint(1, 3)
     for curr_sup in range(0, num_of_suppliers):
         ins_item_id = inventory
