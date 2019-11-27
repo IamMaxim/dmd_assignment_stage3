@@ -48,7 +48,7 @@ for curr_patient in range(1, num_of_patients + 1):
         ins_patient_id = curr_patient
 
         # dictionary
-        medfile_against_patient[curr_patient] = ins_patient_id
+        medfile_against_patient[num_of_reg_number] = ins_patient_id
 
         f.write("INSERT INTO digital_medical_file(date_of_creation, patient_id) VALUES ('%s', %s);\n" % (
             ins_date_of_creation,
@@ -70,7 +70,7 @@ print("Added", num_of_prev_medical_files, "to NUMBERS_OF_PREV_MEDICAL_FILES")
 
 # ==> Filling DIAGNOSE
 for curr_reg_number in range(num_of_reg_number):
-    num_of_diagnoses = randint(0, 3)
+    num_of_diagnoses = randint(0, 10)
     for diagnose in range(0, num_of_diagnoses):
         ins_id = choice(diagnose_name)
 
