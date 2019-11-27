@@ -331,7 +331,7 @@ for chat_id in range(num_of_rec_chat):
     # rec_ids = sample(execute("SELECT rec_id FROM receptionist"), num_of_rec // 2)
     rec_ids = sample(rec_ids, num_of_rec // 2)
     for id in rec_ids:
-        f.write("INSERT INTO chat_receptionist(chat_id, receptionist_id) VALUES (%s, '%s');\n" % (ins_chat_id, id))
+        f.write("INSERT INTO chat_receptionist(chat_id, receptionist_id) VALUES ('%s', '%s');\n" % (ins_chat_id, id))
 
 num_of_chats = num_of_staff_chat + num_of_doctor_chat + num_of_rec_chat
 f.write('\n')
