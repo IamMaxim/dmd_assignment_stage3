@@ -44,12 +44,12 @@ amb_loc = [
     'Argyll Pleasant', 'Windlass Drive', 'Ashwood Park Road', 'Sherwood Path', 'Curlew Acre', 'Edward Heath',
     'Wharfedale Pleasant', 'Kingsmead Street', 'Snakehill Lane', 'Munro Corner', 'Winston Laurels', 'Lenny Balk',
     'Bloomfield Limes', 'Epsom Oak', 'Eastfield Elms', 'Kinnersley Avenue', 'Chandlers Side', 'Southern Edge',
-    'Ardwell Close', 'Kirkby Farm', 'Paterson Moor', 'Brown\'s Way', 'Dean Park Brae', 'The Furlong',
+    'Ardwell Close', 'Kirkby Farm', 'Paterson Moor', 'Brown\'\'s Way', 'Dean Park Brae', 'The Furlong',
     'Bridgewater View', 'Mincing Lane', 'Howe Covert', 'Links Hollies', 'Kipling Buildings', 'Cheyne Field',
     'Staker Lane', 'Foxes Birches', 'Lime Lodge', 'Overdale Gait', 'Chelmsford Beeches', 'Woods Estate',
     'Wykeham Rowans', 'Burleigh East', 'Barn Hollies', 'John Hammond Close', 'Oakland Lawn', 'Harvest Woodlands',
     'Rosehill Top', 'The Four Wents', 'Ward Cross', 'Winston Lea', 'Coed Bach', 'Borrowdale Acres', 'Surrey Manor',
-    'Mcleod\'s Mews', 'Stanford Esplanade', 'Lavender Bank', 'Neville Banks', 'Belvoir Brae', 'Sherborne Downs',
+    'Mcleod\'\'s Mews', 'Stanford Esplanade', 'Lavender Bank', 'Neville Banks', 'Belvoir Brae', 'Sherborne Downs',
     'Links Paddock', 'Davies Promenade']
 
 doc_specialization = ['Family Physician', 'Internal Medicine Physician', 'Pediatrician',
@@ -124,7 +124,7 @@ inventory_instruction = [
     'Swallow the extended-release tablets whole with a full glass of water. Do not break, crush, or chew them.\
     Swallow the delayed-release tablets with a full glass of water.Chewable aspirin tablets may be chewed,\
      crushed, or swallowed whole. Drink a full glass of water, immediately after taking these tablets.Ask\
-      a doctor before you give aspirin to your child or teenager. Aspirin may cause Reye\'s syndrome\
+      a doctor before you give aspirin to your child or teenager. Aspirin may cause Reyes syndrome\
        (a serious condition in which fat builds up on the brain, liver, and other body organs) in children\
         and teenagers, especially if they have a virus such as chicken pox or the flu.'
 ]
