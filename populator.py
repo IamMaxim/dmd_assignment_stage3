@@ -167,7 +167,7 @@ diagnose_treatment = ['grammidin and urine test', 'painkillers and good sleeping
                       ]
 
 
-def gen_date(min_year=2000, max_year=datetime.datetime.now().year):
+def gen_date(min_year=2008, max_year=datetime.datetime.now().year):
     start = datetime.datetime(min_year, 1, 1, 00, 00, 00)
     years = max_year - min_year + 1
     end = start + datetime.timedelta(days=365 * years)
