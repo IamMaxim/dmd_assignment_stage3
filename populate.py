@@ -51,8 +51,8 @@ for curr_patient in range(num_of_patients):
         medfile_against_patient[curr_patient] = ins_patient_id
 
         f.write("INSERT INTO digital_medical_file(date_of_creation, patient_id) VALUES ('%s', %s);\n" % (
-        ins_date_of_creation,
-        ins_patient_id))
+            ins_date_of_creation,
+            ins_patient_id))
 
     # Filling NUMBERS_OF_PREV_MEDICAL_FILES
 
@@ -84,6 +84,8 @@ for curr_reg_number in range(num_of_reg_number):
         #     0]
 
         ins_patient_id = medfile_against_patient.get(curr_reg_number)
+        if ins_patient_id is None:
+            break
 
         ins_treatment = choice(diagnose_treatment)
 
@@ -102,7 +104,10 @@ for curr_reg_number in range(num_of_reg_number):
 
         ins_results_available = gen_boolean()
 
-        ins_results = choice(analyze_result)
+        if ins_results_available is False:
+            ins_results = None
+        else:
+            ins_results = choice(analyze_result)
 
         ins_reg_number = curr_reg_number
 
@@ -111,9 +116,17 @@ for curr_reg_number in range(num_of_reg_number):
 
         ins_patient_id = medfile_against_patient.get(curr_reg_number)
 
-        f.write(
-            "INSERT INTO med_test(collection_date, results_available, results, reg_number, patient_id) VALUES ('%s', %s, '%s', %s, %s);\n" %
-            (ins_collection_date, ins_results_available, ins_results, ins_reg_number, ins_patient_id))
+        if ins_patient_id is None:
+            break
+
+        if ins_results is None:
+            f.write(
+                "INSERT INTO med_test(collection_date, results_available, results, reg_number, patient_id) VALUES ('%s', %s, %s, %s, %s);\n" %
+                (ins_collection_date, ins_results_available, ins_results, ins_reg_number, ins_patient_id))
+        else:
+            f.write(
+                "INSERT INTO med_test(collection_date, results_available, results, reg_number, patient_id) VALUES ('%s', %s, '%s', %s, %s);\n" %
+                (ins_collection_date, ins_results_available, ins_results, ins_reg_number, ins_patient_id))
 
 print("Finished filling MED_TEST")
 f.write('\n')
@@ -130,8 +143,8 @@ for inventory in range(num_of_inventory):
     ins_instruction = choice(inventory_instruction)
 
     f.write("INSERT INTO inventory(name, price_to_sell, instruction) VALUES ('%s', %s, '%s');\n" % (
-    ins_id, ins_price_to_sell,
-    ins_instruction))
+        ins_id, ins_price_to_sell,
+        ins_instruction))
 
 f.write('\n')
 print("Added", num_of_inventory, "to INVENTORY")
@@ -145,8 +158,8 @@ for inventory in range(num_of_inventory):
         ins_price_to_buy = randint(3, 100)
 
         f.write("INSERT INTO suppliers(item_id, supplier, price_to_buy) VALUES (%s, '%s', %s);\n" % (
-        ins_item_id, ins_supplier,
-        ins_price_to_buy))
+            ins_item_id, ins_supplier,
+            ins_price_to_buy))
 
 f.write('\n')
 print("Finished filling SUPPLIERS")
@@ -260,7 +273,7 @@ for inv in range(num_of_pat_inv):
     ins_inventory_id = randint(1, num_of_inventory)
 
     f.write("INSERT INTO patient_inventory(patient_id, inventory_id) VALUES (%s, %s);\n" % (
-    ins_patient_id, ins_inventory_id))
+        ins_patient_id, ins_inventory_id))
 
 f.write('\n')
 print("Added", num_of_pat_inv, "to PATIENT_INVENTORY")
