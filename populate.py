@@ -263,7 +263,7 @@ num_of_staff_inv = randint(10, num_of_inventory)
 for inv in range(num_of_staff_inv):
     ins_staff_id = randint(1, num_of_staff)
 
-    ins_inventory_id = randint(0, num_of_inventory)
+    ins_inventory_id = randint(1, num_of_inventory)
 
     f.write("INSERT INTO staff_inventory(staff_id, inventory_id) VALUES (%s, %s);\n" % (ins_staff_id, ins_inventory_id))
 
@@ -385,8 +385,8 @@ f.write('\n')
 # ==> Filling RECEPTIONIST_PATIENT
 num_of_rec_pat = randint(num_of_patients // 2, num_of_patients)
 for rec_pat in range(num_of_rec_pat):
-    ins_patient_id = randint(1, num_of_patients + 1)
-    ins_receptionist_id = randint(1, num_of_rec + 1)
+    ins_patient_id = randint(1, num_of_patients)
+    ins_receptionist_id = randint(1, num_of_rec)
 
     f.write("INSERT INTO receptionist_patient(patient_id, receptionist_id) VALUES (%s, %s);\n" % (ins_patient_id,
                                                                                                   ins_receptionist_id))
