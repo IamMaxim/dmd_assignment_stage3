@@ -170,7 +170,7 @@ print("Finished filling SUPPLIERS")
 
 # ==> Filling STAFF
 num_of_staff = randint(20, 30)
-staff_ids = list(range(num_of_staff))
+staff_ids = list(range(1, num_of_staff + 1))
 for staff in range(num_of_staff):
     ins_staff_position = choice(staff_position)
     ins_sex = gen_boolean()
@@ -187,7 +187,7 @@ print("Added", num_of_staff, "to STAFF")
 
 # ==> Filling DOCTOR
 num_of_doctors = randint(10, 30)
-doc_ids = list(range(num_of_doctors))
+doc_ids = list(range(1, num_of_doctors + 1))
 for doctor in range(num_of_doctors):
     if gen_boolean():
         ins_full_name = choice(fem_name) + ' ' + choice(surnames)
@@ -228,7 +228,7 @@ print("Added", num_of_amb, "to AMBULANCE")
 
 # ==> Filling RECEPTIONIST
 num_of_rec = randint(3, 8)
-rec_ids = list(range(num_of_rec))
+rec_ids = list(range(1, num_of_rec + 1))
 for rec in range(num_of_rec):
     if gen_boolean():
         ins_id = choice(fem_name) + " " + choice(surnames)
@@ -300,16 +300,16 @@ added_chat_names = []
 # ==> Filling CHAT
 # ==> Filling STAFF_CHAT
 num_of_staff_chat = randint(1, 2)
-for chat_id in range(num_of_staff_chat):
+for chat_id in range(1, num_of_staff_chat + 1):
     chat_name = choice(chat_names)
     f.write("INSERT INTO chat(name) VALUES ('%s');\n" % chat_name)
     chat_names.remove(chat_name)
     added_chat_names.append(chat_name)
 
     # staff_ids = sample(execute("SELECT st_id FROM staff"), num_of_staff // 2)
-    staff_ids = sample(staff_ids, num_of_staff // 2)
+    staff_ids1 = sample(staff_ids, num_of_staff // 2)
 
-    for id in staff_ids:
+    for id in staff_ids1:
         f.write("INSERT INTO staff_chat(chat_id, staff_id) VALUES (%s, %s);\n" % (chat_id, id))
 
 f.write('\n')
