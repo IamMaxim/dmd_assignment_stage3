@@ -1,4 +1,3 @@
-from hospital_system.requests.sql_manager import update, execute
 from populator import *
 from random import *
 
