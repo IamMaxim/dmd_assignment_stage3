@@ -153,7 +153,7 @@ print("Finished filling SUPPLIERS")
 
 # ==> Filling STAFF
 num_of_staff = randint(20, 30)
-staff_ids = list[range(num_of_staff)]
+staff_ids = list(range(num_of_staff))
 for staff in range(num_of_staff):
     ins_staff_position = choice(staff_position)
     ins_sex = gen_boolean()
@@ -170,7 +170,7 @@ print("Added", num_of_staff, "to STAFF")
 
 # ==> Filling DOCTOR
 num_of_doctors = randint(10, 30)
-doc_ids = list[range(num_of_doctors)]
+doc_ids = list(range(num_of_doctors))
 for doctor in range(num_of_doctors):
     if gen_boolean():
         ins_full_name = choice(fem_name) + ' ' + choice(surnames)
@@ -204,14 +204,14 @@ for amb in range(num_of_amb):
                                                                                                 ins_specialization,
                                                                                                 ins_location))
     if not ins_assigned:
-        amb_ids = amb_ids.append(amb)
+        amb_ids.append(amb)
 
 print('\n')
 print("Added", num_of_amb, "to AMBULANCE")
 
 # ==> Filling RECEPTIONIST
 num_of_rec = randint(3, 8)
-rec_ids = list[range(num_of_rec)]
+rec_ids = list(range(num_of_rec))
 for rec in range(num_of_rec):
     if gen_boolean():
         ins_id = choice(fem_name) + " " + choice(surnames)
@@ -245,7 +245,7 @@ num_of_staff_inv = randint(10, num_of_inventory)
 for inv in range(num_of_staff_inv):
     ins_staff_id = randint(1, num_of_staff)
 
-    ins_inventory_id = randint(num_of_inventory)
+    ins_inventory_id = randint(0, num_of_inventory)
 
     f.write("INSERT INTO staff_inventory(staff_id, inventory_id) VALUES (%s, %s);" % (ins_staff_id, ins_inventory_id))
 
@@ -293,7 +293,7 @@ for chat_id in range(num_of_staff_chat):
     staff_ids = sample(staff_ids, num_of_staff // 2)
 
     for id in staff_ids:
-        f.write("INSERT INTO staff_chat(chat_id, staff_id) VALUES (%s, %s);" % (chat_id, id[0]))
+        f.write("INSERT INTO staff_chat(chat_id, staff_id) VALUES (%s, %s);" % (chat_id, id))
 
 f.write('\n')
 print("Added", num_of_staff_chat, "to STAFF_CHAT")
@@ -312,7 +312,7 @@ for chat_id in range(num_of_doctor_chat):
     # doctor_ids = sample(execute("SELECT id FROM doctor"), num_of_doctors // 2)
     doctor_ids = sample(doc_ids, num_of_doctors // 2)
     for id in doctor_ids:
-        f.write("INSERT INTO doctor_chat(chat_id, doctor_id) VALUES (%s, %s);" % (ins_chat_id, id[0]))
+        f.write("INSERT INTO doctor_chat(chat_id, doctor_id) VALUES (%s, %s);" % (ins_chat_id, id))
 
 print("Added", num_of_doctor_chat, "to DOCTOR_CHAT")
 f.write('\n')
@@ -331,7 +331,7 @@ for chat_id in range(num_of_rec_chat):
     # rec_ids = sample(execute("SELECT rec_id FROM receptionist"), num_of_rec // 2)
     rec_ids = sample(rec_ids, num_of_rec // 2)
     for id in rec_ids:
-        f.write("INSERT INTO chat_receptionist(chat_id, receptionist_id) VALUES (%s, %s);" % (ins_chat_id, id[0]))
+        f.write("INSERT INTO chat_receptionist(chat_id, receptionist_id) VALUES (%s, %s);" % (ins_chat_id, id))
 
 num_of_chats = num_of_staff_chat + num_of_doctor_chat + num_of_rec_chat
 f.write('\n')
@@ -354,9 +354,9 @@ f.write('\n')
 # busy_ambs = execute("SELECT amb_id FROM ambulance WHERE assigned=false")
 busy_ambs = amb_ids
 num_of_rec_amb = len(busy_ambs)
-for rec_amb in range(num_of_rec_amb):
-    ins_ambulance_id = busy_ambs[rec_amb][0]
-    ins_receptionist_id = randint(num_of_rec)  # choice(execute("SELECT rec_id FROM receptionist"))[0][0]
+for amb_i in range(num_of_rec_amb):
+    ins_ambulance_id = busy_ambs[amb_i]
+    ins_receptionist_id = randint(0, num_of_rec)  # choice(execute("SELECT rec_id FROM receptionist"))[0][0]
 
     f.write("INSERT INTO receptionist_ambulance(ambulance_id, receptionist_id) VALUES (%s, %s);" % (ins_ambulance_id,
                                                                                                     ins_receptionist_id))
@@ -367,8 +367,8 @@ f.write('\n')
 # ==> Filling RECEPTIONIST_PATIENT
 num_of_rec_pat = randint(num_of_patients // 2, num_of_patients)
 for rec_pat in range(num_of_rec_pat):
-    ins_patient_id = randint(num_of_patients)
-    ins_receptionist_id = randint(num_of_rec)
+    ins_patient_id = randint(0, num_of_patients)
+    ins_receptionist_id = randint(0, num_of_rec)
 
     f.write("INSERT INTO receptionist_patient(patient_id, receptionist_id) VALUES (%s, %s);" % (ins_patient_id,
                                                                                                 ins_receptionist_id))
