@@ -81,21 +81,23 @@ CREATE TABLE if not exists SUPPLIERS
 CREATE TABLE if not exists STAFF
 (
     st_id    serial PRIMARY KEY,
+    name varchar(255) NOT NULL,
     position varchar(255) NOT NULL
 );
 
 CREATE TABLE if not exists CHAT
 (
-    name varchar(255) PRIMARY KEY
+    chat_id serial UNIQUE PRIMARY KEY,
+    name varchar(255)
 );
 
 CREATE TABLE if not exists MESSAGES
 (
     id       serial UNIQUE NOT NULL,
     messages varchar(1024),
-    name     varchar(255)  NOT NULL,
+    chat_id int NOT NULL,
     FOREIGN KEY (name)
-        REFERENCES CHAT (name)
+        REFERENCES CHAT (chat_id)
 	      ON DELETE CASCADE,
     PRIMARY KEY (id, name)
 );
@@ -188,9 +190,9 @@ CREATE TABLE if not exists DOCTOR_INVENTORY
 CREATE TABLE if not exists STAFF_CHAT
 (
     id       serial UNIQUE NOT NULL,
-    chat_id  varchar(255)  NOT NULL,
+    chat_id int NOT NULL,
     FOREIGN KEY (chat_id)
-        REFERENCES CHAT (name)
+        REFERENCES CHAT (chat_id)
 	      ON DELETE CASCADE,
     staff_id int           NOT NULL,
     FOREIGN KEY (staff_id)
@@ -202,9 +204,9 @@ CREATE TABLE if not exists STAFF_CHAT
 CREATE TABLE if not exists DOCTOR_CHAT
 (
     id        serial UNIQUE NOT NULL,
-    chat_id   varchar(255)  NOT NULL,
+    chat_id   int  NOT NULL,
     FOREIGN KEY (chat_id)
-        REFERENCES CHAT (name)
+        REFERENCES CHAT (chat_id)
 	      ON DELETE CASCADE,
     doctor_id int           not null,
     FOREIGN KEY (doctor_id)
@@ -216,9 +218,9 @@ CREATE TABLE if not exists DOCTOR_CHAT
 CREATE TABLE if not exists CHAT_RECEPTIONIST
 (
     id              serial UNIQUE NOT NULL,
-    chat_id         varchar(255)  NOT NULL,
+    chat_id         int  NOT NULL,
     FOREIGN KEY (chat_id)
-        REFERENCES CHAT (name)
+        REFERENCES CHAT (chat-id)
 	      ON DELETE CASCADE,
     receptionist_id int           NOT NULL,
     FOREIGN KEY (receptionist_id)
