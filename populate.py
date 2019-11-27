@@ -105,7 +105,7 @@ for curr_reg_number in range(num_of_reg_number):
         ins_results_available = gen_boolean()
 
         if ins_results_available is False:
-            ins_results = None
+            ins_results = 'null'
         else:
             ins_results = choice(analyze_result)
 
@@ -119,7 +119,7 @@ for curr_reg_number in range(num_of_reg_number):
         if ins_patient_id is None:
             break
 
-        if ins_results is None:
+        if ins_results == 'null':
             f.write(
                 "INSERT INTO med_test(collection_date, results_available, results, reg_number, patient_id) VALUES ('%s', %s, %s, %s, %s);\n" %
                 (ins_collection_date, ins_results_available, ins_results, ins_reg_number, ins_patient_id))
@@ -141,10 +141,14 @@ for inventory in range(num_of_inventory):
         ins_price_to_sell = None
 
     ins_instruction = choice(inventory_instruction)
-
-    f.write("INSERT INTO inventory(name, price_to_sell, instruction) VALUES ('%s', %s, '%s');\n" % (
-        ins_id, ins_price_to_sell,
-        ins_instruction))
+    if ins_price_to_sell is None:
+        f.write("INSERT INTO inventory(name, price_to_sell, instruction) VALUES ('%s', %s, '%s');\n" % (
+            ins_id, 'null',
+            ins_instruction))
+    else:
+        f.write("INSERT INTO inventory(name, price_to_sell, instruction) VALUES ('%s', %s, '%s');\n" % (
+            ins_id, ins_price_to_sell,
+            ins_instruction))
 
 f.write('\n')
 print("Added", num_of_inventory, "to INVENTORY")
