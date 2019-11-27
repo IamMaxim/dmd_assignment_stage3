@@ -2,7 +2,16 @@ from hospital_system.requests.sql_manager import update, execute
 from populator import *
 from random import *
 
-update(open('SQL/table_creation.sql', 'r').read())
+# todo array with ambulance ids
+# todo array with receptionist ids
+# todo create array with doctors id
+# todo array with staff id
+# todo dictionary key - digital medical file, value - patiente id
+
+# implemented line 49
+medfile_vs_patient = {}
+
+# update(open('SQL/table_creation.sql', 'r').read())
 
 # ==> Filling PATIENT
 num_of_patients = 200
@@ -27,16 +36,19 @@ print("Added", num_of_patients, "to PATIENT")
 # ==> Filling DIGITAL_MEDICAL_FILE
 num_of_reg_number = 1
 num_of_prev_medical_files = 0
-for curr_patient in range(1, num_of_patients + 1):
+for curr_patient in range(num_of_patients):
     reg_numbers = []
     num_of_files = randint(2, 4)
-    for file in range(1, num_of_files + 1):
+    for file in range(num_of_files):
         reg_numbers.append(num_of_reg_number)
         num_of_reg_number += 1
 
         ins_date_of_creation = gen_date()
 
         ins_patient_id = curr_patient
+
+# dictionary
+        medfile_vs_patient[curr_patient] = ins_patient_id
 
         f.write(
             "INSERT INTO digital_medical_file(date_of_creation, patient_id) VALUES (%s, %s);" % (ins_date_of_creation,
@@ -137,6 +149,7 @@ print("Finished filling SUPPLIERS")
 
 # ==> Filling STAFF
 num_of_staff = randint(20, 30)
+staff_ids = list[range(num_of_staff)]
 for staff in range(1, num_of_staff + 1):
     ins_staff_position = choice(staff_position)
     ins_sex = gen_boolean()
@@ -153,7 +166,8 @@ print("Added", num_of_staff, "to STAFF")
 
 # ==> Filling DOCTOR
 num_of_doctors = randint(10, 30)
-for doctor in range(1, num_of_doctors + 1):
+doc_ids = list[range(num_of_doctors)]
+for doctor in range(num_of_doctors):
     if gen_boolean():
         ins_full_name = choice(fem_name) + ' ' + choice(surnames)
     else:
@@ -174,6 +188,7 @@ print("Added", num_of_doctors, "to DOCTOR")
 
 # ==> Filling AMBULANCE
 num_of_amb = randint(5, 10)
+amb_ids = list[range(num_of_amb)]
 for amb in range(1, num_of_amb + 1):
     ins_assigned = gen_boolean()
 
@@ -190,7 +205,8 @@ print("Added", num_of_amb, "to AMBULANCE")
 
 # ==> Filling RECEPTIONIST
 num_of_rec = randint(3, 8)
-for rec in range(1, num_of_rec + 1):
+rec_ids = list[range(num_of_rec)]
+for rec in range(num_of_rec):
     if gen_boolean():
         ins_id = choice(fem_name) + " " + choice(surnames)
     else:
