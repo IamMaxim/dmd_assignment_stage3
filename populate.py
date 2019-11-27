@@ -50,7 +50,8 @@ for curr_patient in range(1, num_of_patients + 1):
         # dictionary
         medfile_against_patient[num_of_reg_number] = ins_patient_id
 
-        f.write("INSERT INTO digital_medical_file(date_of_creation, patient_id) VALUES ('%s', %s);\n" % (
+        f.write("INSERT INTO digital_medical_file(reg_number, date_of_creation, patient_id) VALUES (%s, '%s', %s);\n" % (
+            num_of_reg_number,
             ins_date_of_creation,
             ins_patient_id))
 
