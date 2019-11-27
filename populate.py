@@ -34,9 +34,9 @@ f.write('\n')
 print("Added", num_of_patients, "to PATIENT")
 
 # ==> Filling DIGITAL_MEDICAL_FILE
-num_of_reg_number = 0
+num_of_reg_number = 1
 num_of_prev_medical_files = 0
-for curr_patient in range(num_of_patients):
+for curr_patient in range(1, num_of_patients + 1):
     reg_numbers = []
     num_of_files = randint(2, 4)
     for file in range(num_of_files):
@@ -384,7 +384,7 @@ f.write('\n')
 # ==> Filling RECEPTIONIST_PATIENT
 num_of_rec_pat = randint(num_of_patients // 2, num_of_patients)
 for rec_pat in range(num_of_rec_pat):
-    ins_patient_id = randint(0, num_of_patients)
+    ins_patient_id = randint(1, num_of_patients + 1)
     ins_receptionist_id = randint(0, num_of_rec)
 
     f.write("INSERT INTO receptionist_patient(patient_id, receptionist_id) VALUES (%s, %s);\n" % (ins_patient_id,

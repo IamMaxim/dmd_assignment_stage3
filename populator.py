@@ -129,10 +129,30 @@ inventory_instruction = [
         and teenagers, especially if they have a virus such as chicken pox or the flu.'
 ]
 
-analyze_result = ['Good', 'Bad', 'description in some smart words']
+analyze_result = ['Good', 'Bad', '*Description in some smart words*']
 
 diagnose_name = [
-    'obesity',
+    'Obesity',
+    'Stupidity',
+    '43th chromosome',
+    'Flu',
+    'Constipation',
+    'Asthma (Pediatric)',
+    'Headache, Migraine',
+    'Substance Use Disorders',
+    'Depression',
+    'Hypertension',
+    'Food Allergy',
+    'Anxiety Disorder',
+    'Speech Defects',
+    'Autism Spectrum Disorder',
+    'Intellectual Disability',
+    'Tourette Syndrome',
+    'Headache, Chronic Daily',
+    'Congenital Heart Defects, all',
+    'Seizure Disorder',
+    'Hearing Loss',
+    'Cancer',
 ]
 
 diagnose_treatment = ['grammidin and urine test', 'painkillers and good sleeping',
