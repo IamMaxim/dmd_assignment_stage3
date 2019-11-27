@@ -20,7 +20,11 @@ staff_position = ['cleaning manager', 'accountant', 'security guard',
                   'CEO', 'HR', 'fMRI technologist', 'engineer', 'pharmacist',
                   'schedule manager', 'PR manager', 'lawyer', 'storage manager']
 
-chat_names = ['Reschedule', 'Surgeons', 'Nurses', 'Administrative', 'All hospital staff', 'Some stuff']
+chat_names = ['Reschedule', 'Surgeons', 'Nurses in surgeon', 'Administrative', 'All hospital staff', 'Some stuff',
+              'Nurses with kids', 'therapists', 'dentists', 'dermatologists', 'urologists', 'venereologists',
+              'regional ambulance', 'ambulances in south district', 'ambulances in north district',
+              'ambulances in west district', 'ambulances in east district', 'accounting', 'cleaning service',
+              'lawyers']
 chat_message = ['hello', 'we need help', 'Mary, come to the 338, please',
                 'We need a cleaning manager in 505',
                 'have a nice day', 'today its turkey in the canteen', 'has anyone diagnosed a new patient?',
