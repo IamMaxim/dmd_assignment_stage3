@@ -189,7 +189,7 @@ print("Added", num_of_doctors, "to DOCTOR")
 # ==> Filling AMBULANCE
 num_of_amb = randint(5, 10)
 amb_ids = []
-for amb in range(num_of_amb):
+for amb in range(1, num_of_amb + 1):
     ins_assigned = gen_boolean()
 
     ins_specialization = choice(doc_specialization)
