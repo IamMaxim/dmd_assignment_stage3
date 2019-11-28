@@ -69,7 +69,7 @@ print("Added", num_of_reg_number, "to DIGITAL_MEDICAL_FILE")
 print("Added", num_of_prev_medical_files, "to NUMBERS_OF_PREV_MEDICAL_FILES")
 
 # ==> Filling DIAGNOSE
-for curr_reg_number in range(num_of_reg_number):
+for curr_reg_number in range(1, num_of_reg_number+1):
     num_of_diagnoses = randint(0, 10)
     for diagnose in range(0, num_of_diagnoses):
         ins_id = choice(diagnose_name)
@@ -84,8 +84,8 @@ for curr_reg_number in range(num_of_reg_number):
         #     0]
 
         ins_patient_id = medfile_against_patient.get(curr_reg_number)
-        if ins_patient_id is None:
-            break
+        # if ins_patient_id is None:
+        #     break
 
         ins_treatment = choice(diagnose_treatment)
 
@@ -97,7 +97,7 @@ print("Finished filling DIAGNOSE")
 f.write('\n')
 
 # ==> Filling MED_TEST
-for curr_reg_number in range(num_of_reg_number):
+for curr_reg_number in range(1, num_of_reg_number+1):
     num_of_tests = randint(0, 3)
     for test in range(0, num_of_tests):
         ins_collection_date = gen_date()
@@ -116,8 +116,8 @@ for curr_reg_number in range(num_of_reg_number):
 
         ins_patient_id = medfile_against_patient.get(curr_reg_number)
 
-        if ins_patient_id is None:
-            break
+        # if ins_patient_id is None:
+        #     break
 
         if ins_results == 'null':
             f.write(
