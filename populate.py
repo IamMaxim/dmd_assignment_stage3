@@ -88,7 +88,7 @@ for curr_reg_number in range(1, num_of_reg_number + 1):
                 (ins_id, ins_found_date, ins_get_well_date, ins_reg_number, ins_patient_id, ins_treatment))
         else:
             f.write(
-                "INSERT INTO diagnose(name, found_date, get_well_date, reg_number, patient_id, treatment) VALUES ('%s', '%s', 'null', %s, %s, '%s');\n" %
+                "INSERT INTO diagnose(name, found_date, get_well_date, reg_number, patient_id, treatment) VALUES ('%s', '%s', null, %s, %s, '%s');\n" %
                 (ins_id, ins_found_date, ins_reg_number, ins_patient_id, ins_treatment))
 
 print("Finished filling DIAGNOSE")
