@@ -1,4 +1,3 @@
-from hospital_system.requests.sql_manager import update, execute
 from populator import *
 from random import *
 from populator import gen_sex_and_name
@@ -11,12 +10,15 @@ num_of_patients = 200
 
 f = open("insert_script.sql", "w+")
 
+snns = create_snn()
+
 for patient in range(num_of_patients):
     ins_sex, ins_full_name = gen_sex_and_name()
-
+    snn = snns.pop()
     ins_age = randint(0, 100)
 
-    f.write("INSERT INTO patient(age, sex, full_name) VALUES (%s, %s, '%s');\n" % (ins_age, ins_sex, ins_full_name))
+    f.write("INSERT INTO patient(age, sex, full_name, snn) VALUES (%s, %s, '%s', %s);\n" % (
+    ins_age, ins_sex, ins_full_name, snn))
 
 f.write('\n')
 print("Added", num_of_patients, "to PATIENT")
@@ -59,7 +61,7 @@ print("Added", num_of_reg_number, "to DIGITAL_MEDICAL_FILE")
 print("Added", num_of_prev_medical_files, "to NUMBERS_OF_PREV_MEDICAL_FILES")
 
 # ==> Filling DIAGNOSE
-for curr_reg_number in range(1, num_of_reg_number+1):
+for curr_reg_number in range(1, num_of_reg_number + 1):
     num_of_diagnoses = randint(0, 10)
     for diagnose in range(0, num_of_diagnoses):
         ins_id = choice(diagnose_name)
@@ -84,7 +86,7 @@ print("Finished filling DIAGNOSE")
 f.write('\n')
 
 # ==> Filling MED_TEST
-for curr_reg_number in range(1, num_of_reg_number+1):
+for curr_reg_number in range(1, num_of_reg_number + 1):
     num_of_tests = randint(0, 3)
     for test in range(0, num_of_tests):
         ins_collection_date = gen_date()
