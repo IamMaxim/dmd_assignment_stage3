@@ -25,7 +25,9 @@ SECRET_KEY = 'rxpi8ru9@9i$0hy0uf+ev1j&d0$ybc9=-(75%@b*plhf$b+3ws'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+        "mywarmplace.tk"
+]
 
 
 # Application definition
