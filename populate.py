@@ -178,7 +178,7 @@ f.write('\n')
 print("Added", num_of_staff, "to STAFF")
 
 # ==> Filling DOCTOR
-num_of_doctors = randint(10, 30)
+num_of_doctors = randint(25, 40)
 license_ids = sample(range(100000, 999999), num_of_doctors)
 doc_ids = list(range(1, num_of_doctors + 1))
 for doctor in range(num_of_doctors):

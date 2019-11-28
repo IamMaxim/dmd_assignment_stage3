@@ -14,7 +14,7 @@ def init():
                                       password="passpass",
                                       host="mywarmplace.tk",
                                       port="18636",
-                                      database="dmd1")
+                                      database="hospital")
 
         cursor = connection.cursor()
         # Print PostgreSQL version

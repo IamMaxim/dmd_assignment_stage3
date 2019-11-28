@@ -78,7 +78,7 @@ WSGI_APPLICATION = 'hospital_system.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'dmd1',
+        'NAME': 'hospital',
         'USER': 'dmd1_user',
         'PASSWORD': 'passpass',
         'HOST': 'mywarmplace.tk',
