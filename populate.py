@@ -17,7 +17,7 @@ for patient in range(num_of_patients):
     snn = snns.pop()
     ins_age = randint(0, 100)
 
-    f.write("INSERT INTO patient(age, sex, full_name, snn) VALUES (%s, %s, '%s', %s);\n" % (
+    f.write("INSERT INTO patient(age, sex, full_name, ssn) VALUES (%s, %s, '%s', %s);\n" % (
     ins_age, ins_sex, ins_full_name, snn))
 
 f.write('\n')
