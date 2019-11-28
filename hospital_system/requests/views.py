@@ -1,3 +1,5 @@
+import json
+
 from django.http import HttpResponse, HttpRequest
 from django.utils.datastructures import MultiValueDictKeyError
 
@@ -18,4 +20,16 @@ def index(request: HttpRequest):
         return HttpResponse("No query passed. FY.")
 
     # Return response to the query
-    return HttpResponse("Response for your query is:\n" + str(sql_manager.execute(query)))
+    response = sql_manager.execute(query)
+
+    print('gonna execute', request)
+    if 'second_query' in query:
+        l = [[str(x[0]), x[1]] for x in response]
+    # elif 'third_query' in query:
+    #     pass
+    elif 'fourth_query' in query:
+        l = [int(x[0]) for x in response]
+    else:
+        l = [x for x in response]
+
+    return HttpResponse(json.dumps(l))
