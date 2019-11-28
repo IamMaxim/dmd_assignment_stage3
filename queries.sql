@@ -47,10 +47,10 @@ create or replace function first_query(patient_id int, first_letter char(1), sec
 $$
 select distinct d_name
 from get_data_for_first_query()
-where p_id = $1 and starts_with(split_part(d_name, ' ', 1), first_letter)::int +
-                    starts_with(split_part(d_name, ' ', 1), second_letter)::int +
-                    starts_with(split_part(d_name, ' ', 2), first_letter)::int +
-                    starts_with(split_part(d_name, ' ', 2), second_letter)::int = 1
+where p_id = $1 and starts_with(split_part(lower(d_name), ' ', 1), lower(first_letter))::int +
+                    starts_with(split_part(lower(d_name), ' ', 1), lower(second_letter))::int +
+                    starts_with(split_part(lower(d_name), ' ', 2), lower(first_letter))::int +
+                    starts_with(split_part(lower(d_name), ' ', 2), lower(second_letter))::int = 1
 $$
     language sql;
 
