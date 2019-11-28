@@ -33,7 +33,7 @@ for curr_patient in range(1, num_of_patients + 1):
         num_of_reg_number += 1
         reg_numbers.append(num_of_reg_number)
 
-        ins_date_of_creation = gen_date()
+        ins_date_of_creation = gen_date().date()
 
         ins_patient_id = curr_patient
 
@@ -66,8 +66,10 @@ for curr_reg_number in range(1, num_of_reg_number + 1):
     for diagnose in range(0, num_of_diagnoses):
         ins_id = choice(diagnose_name)
 
+        # time is important for heart attacks for example
         ins_found_date = gen_date()
 
+        # can be null
         ins_get_well_date = gen_date_later(ins_found_date)
 
         ins_reg_number = curr_reg_number
@@ -78,9 +80,15 @@ for curr_reg_number in range(1, num_of_reg_number + 1):
 
         ins_treatment = choice(diagnose_treatment)
 
-        f.write(
-            "INSERT INTO diagnose(name, found_date, get_well_date, reg_number, patient_id, treatment) VALUES ('%s', '%s', '%s', %s, %s, '%s');\n" %
-            (ins_id, ins_found_date, ins_get_well_date, ins_reg_number, ins_patient_id, ins_treatment))
+        # if person is well
+        if gen_boolean():
+            f.write(
+                "INSERT INTO diagnose(name, found_date, get_well_date, reg_number, patient_id, treatment) VALUES ('%s', '%s', '%s', %s, %s, '%s');\n" %
+                (ins_id, ins_found_date, ins_get_well_date, ins_reg_number, ins_patient_id, ins_treatment))
+        else:
+            f.write(
+                "INSERT INTO diagnose(name, found_date, get_well_date, reg_number, patient_id, treatment) VALUES ('%s', '%s', 'null', %s, %s, '%s');\n" %
+                (ins_id, ins_found_date, ins_reg_number, ins_patient_id, ins_treatment))
 
 print("Finished filling DIAGNOSE")
 f.write('\n')
@@ -89,6 +97,8 @@ f.write('\n')
 for curr_reg_number in range(1, num_of_reg_number + 1):
     num_of_tests = randint(0, 3)
     for test in range(0, num_of_tests):
+
+        # time is important as results norm may vary from it
         ins_collection_date = gen_date()
 
         ins_results_available = gen_boolean()
@@ -219,20 +229,6 @@ for rec in range(num_of_rec):
 f.write('\n')
 print("Added", num_of_rec, "to RECEPTIONIST")
 
-# ==> Filling APPOINTMENT
-num_of_app = randint(1000, 2000)
-for app in range(num_of_app):
-    ins_patient_id = randint(1, num_of_patients)
-    ins_rec_id = randint(1, num_of_rec)
-    ins_doctor_id = randint(1, num_of_doctors)
-    ins_date_and_time = gen_date()
-
-    f.write("INSERT INTO appointment(patient_id, rec_id, doctor_id, date_and_time) VALUES (%s, %s, %s, '%s');\n" %
-            (ins_patient_id, ins_rec_id, ins_doctor_id, ins_date_and_time))
-
-f.write('\n')
-print("Added", num_of_app, "to APPOINTMENT")
-
 # ==> Filling home visit APPOINTMENT
 num_of_app = randint(1000, 2000)
 for app in range(num_of_app):
@@ -242,7 +238,7 @@ for app in range(num_of_app):
     ins_date_and_time = gen_date()
 
     f.write("INSERT INTO appointment(patient_id, rec_id, doctor_id, date_and_time, is_home_visit) VALUES (%s, %s, %s, '%s', '%s');\n" %
-            (ins_patient_id, ins_rec_id, ins_doctor_id, ins_date_and_time, True))
+            (ins_patient_id, ins_rec_id, ins_doctor_id, ins_date_and_time, gen_boolean()))
 
 f.write('\n')
 print("Added", num_of_app, "to APPOINTMENT")
@@ -290,6 +286,7 @@ added_chat_names = []
 
 # ==> Filling CHAT
 # ==> Filling STAFF_CHAT
+
 cur_chat_id = 1
 num_of_staff_chat = randint(1, 5)
 chat_ids = list(range(1, num_of_staff_chat + 1))
