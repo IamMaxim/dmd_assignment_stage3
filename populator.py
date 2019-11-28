@@ -1,5 +1,5 @@
 import datetime
-from random import randrange, random
+from random import randrange, random, choice
 
 fem_name = ['Hana', 'Zoya', 'Willie', 'Nettie', 'Kara', 'Lara', 'Halima', 'Laila', 'Alicia', 'Caroline', 'Carla',
             'Julie',
@@ -199,3 +199,10 @@ def gen_working_hours(mode):
 
 def gen_boolean():
     return randrange(0, 2) == 1
+
+def gen_male_fullname():
+    return f"{choice(male_name)} {choice(surnames)}"
+
+def gen_female_fullname():
+    return f"{choice(fem_name)} {choice(surnames)}"
+    

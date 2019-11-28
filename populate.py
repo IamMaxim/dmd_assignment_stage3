@@ -21,9 +21,9 @@ for patient in range(num_of_patients):
     ins_sex = gen_boolean()
 
     if ins_sex:
-        ins_full_name = choice(fem_name) + ' ' + choice(surnames)
+        ins_full_name = gen_female_fullname()
     else:
-        ins_full_name = choice(male_name) + ' ' + choice(surnames)
+        ins_full_name = gen_male_fullname()
 
     ins_age = randint(0, 100)
 
@@ -176,9 +176,9 @@ for staff in range(num_of_staff):
     ins_sex = gen_boolean()
 
     if ins_sex:
-        staff_name = choice(fem_name) + ' ' + choice(surnames)
+        staff_name = gen_female_fullname()
     else:
-        staff_name = choice(male_name) + ' ' + choice(surnames)
+        staff_name = gen_male_fullname()
 
     f.write("INSERT INTO staff(position, name) VALUES ('%s', '%s' );\n" % (ins_staff_position, staff_name))
 
@@ -190,9 +190,9 @@ num_of_doctors = randint(10, 30)
 doc_ids = list(range(1, num_of_doctors + 1))
 for doctor in range(num_of_doctors):
     if gen_boolean():
-        ins_full_name = choice(fem_name) + ' ' + choice(surnames)
+        ins_full_name = gen_female_fullname()
     else:
-        ins_full_name = choice(male_name) + ' ' + choice(surnames)
+        ins_full_name = gen_male_fullname()
 
     working_hours_from, working_hours_to = gen_working_hours(randint(1, 3))
     ins_working_hours = working_hours_from.strftime('%H:%M:%S') + "; " + working_hours_to.strftime('%H:%M:%S')
@@ -231,9 +231,9 @@ num_of_rec = randint(3, 8)
 rec_ids = list(range(1, num_of_rec + 1))
 for rec in range(num_of_rec):
     if gen_boolean():
-        ins_id = choice(fem_name) + " " + choice(surnames)
+        ins_id = gen_female_fullname()
     else:
-        ins_id = choice(male_name) + " " + choice(surnames)
+        ins_id = gen_male_fullname()
 
     working_hours_from, working_hours_to = gen_working_hours(randint(1, 3))
     ins_working_hours = working_hours_from.strftime('%H:%M:%S') + "; " + working_hours_to.strftime('%H:%M:%S')
