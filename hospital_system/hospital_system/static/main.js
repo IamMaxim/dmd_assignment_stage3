@@ -34,7 +34,7 @@ function doFirstRequest() {
     let first_letter = $('#fq_fl').val();
     let second_letter = $('#fq_sl').val();
 
-    performRequest(`SELECT * FROM first_query(${p_id}, ${first_letter}, ${second_letter})`,
+    performRequest(`SELECT * FROM first_query(${p_id}, '${first_letter}', '${second_letter}')`,
         (msg) => appendMessage('first_query_log', msg))
 }
 
