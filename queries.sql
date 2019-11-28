@@ -5,52 +5,37 @@ $$
 select *
 from appointment
 where patient_id = $1
-  and date_and_time >= now()::date;
+  and date_and_time >= date_trunc('day', now());
 $$ language sql;
 
-create or replace function get_last_patients_appointment(patient_id int) returns setof appointment as
+-- create or replace function get_last_patients_appointment(ssn int) returns setof appointment as
+-- $$
+-- select *
+-- from appointment
+-- where patient_id = $1
+-- order by date_and_time desc
+-- limit 1;
+-- $$ language sql;
+
+
+create type data_for_first_query as (p_id int, p_ssn int, d_name varchar(255));
+
+create or replace function get_data_for_first_query(patient_id int) returns setof data_for_first_query as
 $$
-select *
-from appointment
-where patient_id = $1
-order by date_and_time desc
-limit 1;
-$$ language sql;
-
-
-create type data_for_first_query as (p_id int, d_name varchar(255));
-
-create or replace function get_data_for_first_query() returns setof data_for_first_query as
-$$
-select p.id, d.name
-from ((appointment join patient p on appointment.patient_id = p.id)
-         join doctor d on appointment.doctor_id = d.id);
+select p.id, p.ssn, d.name
+from ((get_patients_appointments_today($1) as a join patient p on a.patient_id = p.id)
+         join doctor d on a.doctor_id = d.id);
 $$
     language sql;
 
--- create or replace function first_query(patient_id int, first_letter char(1), second_letter char(1)) returns setof varchar as
--- $$
--- select name
--- from (select name
---       from (doctor
---                join (
---           select doctor_id
---           from get_last_patients_appointment($1) as app) as "$1ai" ON doctor.id = doctor_id)) as "d$1a*"
--- where starts_with(split_part(name, ' ', 1), first_letter)::int +
---       starts_with(split_part(name, ' ', 1), second_letter)::int +
---       starts_with(split_part(name, ' ', 2), first_letter)::int +
---       starts_with(split_part(name, ' ', 2), second_letter)::int = 1
--- $$
---     language sql;
-
-create or replace function first_query(patient_id int, first_letter char(1), second_letter char(1)) returns setof varchar as
+create or replace function first_query(ssn int, first_letter char(1), second_letter char(1)) returns setof varchar as
 $$
 select distinct d_name
-from get_data_for_first_query()
-where p_id = $1 and starts_with(split_part(lower(d_name), ' ', 1), lower(first_letter))::int +
-                    starts_with(split_part(lower(d_name), ' ', 1), lower(second_letter))::int +
-                    starts_with(split_part(lower(d_name), ' ', 2), lower(first_letter))::int +
-                    starts_with(split_part(lower(d_name), ' ', 2), lower(second_letter))::int = 1
+from get_data_for_first_query((select id from patient where ssn = $1))
+where starts_with(split_part(lower(d_name), ' ', 1), lower(first_letter))::int +
+      starts_with(split_part(lower(d_name), ' ', 1), lower(second_letter))::int +
+      starts_with(split_part(lower(d_name), ' ', 2), lower(first_letter))::int +
+      starts_with(split_part(lower(d_name), ' ', 2), lower(second_letter))::int = 1
 $$
     language sql;
 
@@ -221,6 +206,6 @@ create or replace function fifth_query() returns setof doctor as
 $$
 
 
-
-$$ language sql;
+$$
+    language sql;
 
