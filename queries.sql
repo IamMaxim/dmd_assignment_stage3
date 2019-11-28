@@ -8,16 +8,6 @@ where patient_id = $1
   and date_and_time >= date_trunc('day', now());
 $$ language sql;
 
--- create or replace function get_last_patients_appointment(ssn int) returns setof appointment as
--- $$
--- select *
--- from appointment
--- where patient_id = $1
--- order by date_and_time desc
--- limit 1;
--- $$ language sql;
-
-
 create type data_for_first_query as (p_id int, p_ssn int, d_name varchar(255));
 
 create or replace function get_data_for_first_query(patient_id int) returns setof data_for_first_query as
@@ -147,32 +137,6 @@ $$
 
 
 -- 5
--- create or replace function fifth_query(period int, patients_per_year int, total_patients int) returns setof doctor as
--- $$
--- SELECT doctor.* /*, patients*/
--- FROM (
---          SELECT noapy.doctor_id, SUM(noapy.ct) as patients
---          FROM (
---                   SELECT dp.doctor_id, COUNT(dp.patient_id) as ct, dp.dp
---                   FROM (
---                            SELECT a.patient_id, a.doctor_id, date_part('year', a.date_and_time) as dp
---                            FROM appointment as a,
---                                 doctor as d
---                            WHERE date_part('year', a.date_and_time) >
---                                  date_part('year', current_date) - period
---                              AND a.doctor_id = d.id
---                        ) as dp
---                   GROUP BY dp.doctor_id, dp.dp
---                   HAVING COUNT(dp.doctor_id) >= patients_per_year
---               ) as noapy
---          GROUP BY noapy.doctor_id
---          HAVING COUNT(noapy.ct) >= period
---             AND SUM(noapy.ct) > total_patients
---      ) as result,
---      doctor
--- WHERE result.doctor_id = doctor.id
---
--- $$ language sql;
 
 create or replace function fifth_query() returns setof doctor as
 $$
@@ -200,12 +164,3 @@ FROM (
 WHERE result.doctor_id = doctor.id
 
 $$ language sql;
-
-
-create or replace function fifth_query() returns setof doctor as
-$$
-
-
-$$
-    language sql;
-
