@@ -34,17 +34,25 @@ function doFirstRequest() {
 }
 
 function doSecondRequest() {
-
+    appendMessage('second_query_log', 'Going to execute the second request...');
+    performRequest("SELECT * FROM second_query()",
+        (msg) => appendMessage('second_query_log', msg))
 }
 
 function doThirdRequest() {
-
+    appendMessage('third_query_log', 'Going to execute the third request...');
+    performRequest("SELECT * FROM third_query()",
+        (msg) => appendMessage('third_query_log', msg))
 }
 
 function doFourthRequest() {
-
+    appendMessage('fourth_query_log', 'Going to execute the fourth request...');
+    performRequest("SELECT * FROM fourth_query()",
+        (msg) => appendMessage('fourth_query_log', msg))
 }
 
 function doFifthRequest() {
-
+    appendMessage('fifth_query_log', 'Going to execute the fifth request...');
+    performRequest("SELECT * FROM fifth_query()",
+        (msg) => appendMessage('fifth_query_log', msg))
 }
