@@ -187,6 +187,7 @@ print("Added", num_of_staff, "to STAFF")
 
 # ==> Filling DOCTOR
 num_of_doctors = randint(10, 30)
+license_ids = sample(range(100000, 999999), num_of_doctors)
 doc_ids = list(range(1, num_of_doctors + 1))
 for doctor in range(num_of_doctors):
     if gen_boolean():
@@ -199,7 +200,7 @@ for doctor in range(num_of_doctors):
 
     ins_specialization = ', '.join(sample(doc_specialization, randint(1, 3)))
 
-    ins_license_id = randint(100000, 999999)
+    ins_license_id = license_ids.pop()
 
     f.write("INSERT INTO doctor(working_hours, specialization, name, license_id) VALUES ('%s', '%s', '%s', %s);\n" %
             (ins_working_hours, ins_specialization, ins_full_name, ins_license_id))
