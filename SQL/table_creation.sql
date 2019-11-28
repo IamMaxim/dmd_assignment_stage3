@@ -134,6 +134,7 @@ CREATE TABLE if not exists APPOINTMENT
     ap_id         serial UNIQUE,
     ssn           int UNIQUE NOT NULL,
     date_and_time timestamp NOT NULL,
+    is_home_visit bool NOT NULL default FALSE,
     FOREIGN KEY (patient_id)
         REFERENCES PATIENT (id)
 	      ON DELETE CASCADE,

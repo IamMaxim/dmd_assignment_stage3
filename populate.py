@@ -233,6 +233,21 @@ for app in range(num_of_app):
 f.write('\n')
 print("Added", num_of_app, "to APPOINTMENT")
 
+# ==> Filling home visit APPOINTMENT
+num_of_app = randint(1000, 2000)
+for app in range(num_of_app):
+    ins_patient_id = randint(1, num_of_patients)
+    ins_rec_id = randint(1, num_of_rec)
+    ins_doctor_id = randint(1, num_of_doctors)
+    ins_date_and_time = gen_date()
+
+    f.write("INSERT INTO appointment(patient_id, rec_id, doctor_id, date_and_time, is_home_visit) VALUES (%s, %s, %s, '%s', '%s');\n" %
+            (ins_patient_id, ins_rec_id, ins_doctor_id, ins_date_and_time, True))
+
+f.write('\n')
+print("Added", num_of_app, "to APPOINTMENT")
+
+
 # ==> Filling STAFF_INVENTORY
 num_of_staff_inv = randint(10, num_of_inventory)
 for inv in range(num_of_staff_inv):
