@@ -1,17 +1,9 @@
-from hospital_system.requests.sql_manager import update, execute
 from populator import *
 from random import *
-
-# todo array with ambulance ids
-# todo array with receptionist ids
-# todo create array with doctors id
-# todo array with staff id
-# todo dictionary key - digital medical file, value - patiente id
+from populator import gen_sex_and_name
 
 # implemented line 49
 medfile_against_patient = {}
-
-# update(open('SQL/table_creation.sql', 'r').read())
 
 # ==> Filling PATIENT
 num_of_patients = 200
@@ -19,12 +11,7 @@ num_of_patients = 200
 f = open("insert_script.sql", "w+")
 
 for patient in range(num_of_patients):
-    ins_sex = gen_boolean()
-
-    if ins_sex:
-        ins_full_name = choice(fem_name) + ' ' + choice(surnames)
-    else:
-        ins_full_name = choice(male_name) + ' ' + choice(surnames)
+    ins_sex, ins_full_name = gen_sex_and_name()
 
     ins_age = randint(0, 100)
 
@@ -50,10 +37,11 @@ for curr_patient in range(1, num_of_patients + 1):
         # dictionary
         medfile_against_patient[num_of_reg_number] = ins_patient_id
 
-        f.write("INSERT INTO digital_medical_file(reg_number, date_of_creation, patient_id) VALUES (%s, '%s', %s);\n" % (
-            num_of_reg_number,
-            ins_date_of_creation,
-            ins_patient_id))
+        f.write(
+            "INSERT INTO digital_medical_file(reg_number, date_of_creation, patient_id) VALUES (%s, '%s', %s);\n" % (
+                num_of_reg_number,
+                ins_date_of_creation,
+                ins_patient_id))
 
     # Filling NUMBERS_OF_PREV_MEDICAL_FILES
 
@@ -80,9 +68,6 @@ for curr_reg_number in range(num_of_reg_number):
         ins_get_well_date = gen_date_later(ins_found_date)
 
         ins_reg_number = curr_reg_number
-
-        # ins_patient_id = execute("SELECT patient_id FROM digital_medical_file WHERE reg_number=%s", curr_reg_number)[0][
-        #     0]
 
         ins_patient_id = medfile_against_patient.get(curr_reg_number)
         if ins_patient_id is None:
@@ -111,9 +96,6 @@ for curr_reg_number in range(num_of_reg_number):
             ins_results = choice(analyze_result)
 
         ins_reg_number = curr_reg_number
-
-        # ins_patient_id = execute("SELECT patient_id FROM digital_medical_file WHERE reg_number=%s", curr_reg_number)[0][
-        #     0]
 
         ins_patient_id = medfile_against_patient.get(curr_reg_number)
 
@@ -174,12 +156,7 @@ num_of_staff = randint(20, 30)
 staff_ids = list(range(1, num_of_staff + 1))
 for staff in range(num_of_staff):
     ins_staff_position = choice(staff_position)
-    ins_sex = gen_boolean()
-
-    if ins_sex:
-        staff_name = choice(fem_name) + ' ' + choice(surnames)
-    else:
-        staff_name = choice(male_name) + ' ' + choice(surnames)
+    ins_sex, staff_name = gen_sex_and_name()
 
     f.write("INSERT INTO staff(position, name) VALUES ('%s', '%s' );\n" % (ins_staff_position, staff_name))
 
@@ -190,10 +167,7 @@ print("Added", num_of_staff, "to STAFF")
 num_of_doctors = randint(10, 30)
 doc_ids = list(range(1, num_of_doctors + 1))
 for doctor in range(num_of_doctors):
-    if gen_boolean():
-        ins_full_name = choice(fem_name) + ' ' + choice(surnames)
-    else:
-        ins_full_name = choice(male_name) + ' ' + choice(surnames)
+    _, ins_full_name = gen_sex_and_name()
 
     working_hours_from, working_hours_to = gen_working_hours(randint(1, 3))
     ins_working_hours = working_hours_from.strftime('%H:%M:%S') + "; " + working_hours_to.strftime('%H:%M:%S')
@@ -231,15 +205,12 @@ print("Added", num_of_amb, "to AMBULANCE")
 num_of_rec = randint(3, 8)
 rec_ids = list(range(1, num_of_rec + 1))
 for rec in range(num_of_rec):
-    if gen_boolean():
-        ins_id = choice(fem_name) + " " + choice(surnames)
-    else:
-        ins_id = choice(male_name) + " " + choice(surnames)
+    _, rec_name = gen_sex_and_name()
 
     working_hours_from, working_hours_to = gen_working_hours(randint(1, 3))
     ins_working_hours = working_hours_from.strftime('%H:%M:%S') + "; " + working_hours_to.strftime('%H:%M:%S')
 
-    f.write("INSERT INTO receptionist(name, working_hours) VALUES ('%s', '%s');\n" % (ins_id, ins_working_hours))
+    f.write("INSERT INTO receptionist(name, working_hours) VALUES ('%s', '%s');\n" % (rec_name, ins_working_hours))
 
 f.write('\n')
 print("Added", num_of_rec, "to RECEPTIONIST")
@@ -302,16 +273,13 @@ added_chat_names = []
 # ==> Filling STAFF_CHAT
 cur_chat_id = 1
 num_of_staff_chat = randint(1, 5)
-chat_ids = list(range(1, num_of_staff_chat+1))
+chat_ids = list(range(1, num_of_staff_chat + 1))
 for chat_id in range(1, num_of_staff_chat + 1):
     chat_name = choice(chat_names)
     f.write("INSERT INTO chat(chat_id, name) VALUES (%s,'%s');\n" % (cur_chat_id, chat_name))
     chat_names.remove(chat_name)
     added_chat_names.append(chat_name)
-    # staff_ids = sample(execute("SELECT st_id FROM staff"), num_of_staff // 2)
-    staff_ids1 = sample(staff_ids, num_of_staff // 2)
-
-    for id in staff_ids1:
+    for id in staff_ids:
         if gen_boolean():
             f.write("INSERT INTO staff_chat(chat_id, staff_id) VALUES (%s, %s);\n" % (cur_chat_id, id))
 
@@ -330,10 +298,7 @@ for chat_id in range(num_of_doctor_chat):
     added_chat_names.append(curr_chat_name)
 
     ins_chat_id = curr_chat_name
-
-    # doctor_ids = sample(execute("SELECT id FROM doctor"), num_of_doctors // 2)
-    doctor_ids = sample(doc_ids, num_of_doctors // 2)
-    for id in doctor_ids:
+    for id in doc_ids:
         if gen_boolean():
             f.write("INSERT INTO doctor_chat(chat_id, doctor_id) VALUES (%s, %s);\n" % (cur_chat_id, id))
 
@@ -352,13 +317,11 @@ for chat_id in range(num_of_rec_chat):
     added_chat_names.append(curr_chat_name)
 
     ins_chat_id = curr_chat_name
-
-    # rec_ids = sample(execute("SELECT rec_id FROM receptionist"), num_of_rec // 2)
-    rec_ids = sample(rec_ids, num_of_rec // 2)
     for id in rec_ids:
         if gen_boolean():
-            f.write("INSERT INTO chat_receptionist(chat_id, receptionist_id) VALUES ('%s', '%s');\n" % (cur_chat_id, id))
-    cur_chat_id +=1
+            f.write(
+                "INSERT INTO chat_receptionist(chat_id, receptionist_id) VALUES ('%s', '%s');\n" % (cur_chat_id, id))
+    cur_chat_id += 1
 
 num_of_chats = num_of_staff_chat + num_of_doctor_chat + num_of_rec_chat
 f.write('\n')
@@ -378,7 +341,6 @@ for chat_id in range(1, num_of_chats + 1):
 f.write('\n')
 
 # ==> Filling RECEPTIONIST_AMBULANCE
-# busy_ambs = execute("SELECT amb_id FROM ambulance WHERE assigned=false")
 busy_ambs = amb_ids
 num_of_rec_amb = len(busy_ambs)
 for amb_i in range(num_of_rec_amb):

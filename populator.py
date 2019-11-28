@@ -1,5 +1,5 @@
 import datetime
-from random import randrange, random
+from random import randrange, random, choice
 
 fem_name = ['Hana', 'Zoya', 'Willie', 'Nettie', 'Kara', 'Lara', 'Halima', 'Laila', 'Alicia', 'Caroline', 'Carla',
             'Julie',
@@ -25,6 +25,7 @@ chat_names = ['Reschedule', 'Surgeons', 'Nurses in surgeon', 'Administrative', '
               'regional ambulance', 'ambulances in south district', 'ambulances in north district',
               'ambulances in west district', 'ambulances in east district', 'accounting', 'cleaning service',
               'lawyers']
+
 chat_message = ['hello', 'we need help', 'Mary, come to the 338, please',
                 'We need a cleaning manager in 505',
                 'have a nice day', 'today its turkey in the canteen', 'has anyone diagnosed a new patient?',
@@ -199,3 +200,14 @@ def gen_working_hours(mode):
 
 def gen_boolean():
     return randrange(0, 2) == 1
+
+
+def gen_sex_and_name():
+    sex = gen_boolean()
+
+    if sex:
+        full_name = f'{choice(fem_name)} {choice(surnames)}'
+    else:
+        full_name = f'{choice(male_name)} {choice(surnames)}'
+
+    return sex, full_name
