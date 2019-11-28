@@ -306,7 +306,7 @@ def create_chat(id):
     global doctor_chats
     global gen_chats
     global amb_chats
-    if whose ==1:
+    if whose == 1:
         if doctor_chats == 0:
             create_chat(id=id)
         else:
@@ -315,15 +315,15 @@ def create_chat(id):
             f.write("INSERT INTO chat(chat_id, name) VALUES (%s,'%s');\n" % (id, name))
     if whose == 2:
         # patient_receptionist
-        rec_id = choice(rec_ids, 1)
-        patient_id = choice(pat_ids, 1)
+        rec_id = choice(rec_ids)
+        patient_id = choice(pat_ids)
         name = f'Chat with {patient_names.get(patient_id)}'
         f.write("INSERT INTO chat(chat_id, name) VALUES (%s,'%s');\n" % (id, name))
         f.write("INSERT INTO receptionist_patient(patient_id, receptionist_id) VALUES (%s, %s);\n" % (patient_id,
                                                                                                   rec_id))
     if whose == 3:
-        doc_id = choice(doc_ids, 1)
-        patient_id = choice(pat_ids, 1)
+        doc_id = choice(doc_ids)
+        patient_id = choice(pat_ids)
         name = f'Chat with {patient_names.get(patient_id)}'
         f.write("INSERT INTO chat(chat_id, name) VALUES (%s,'%s');\n" % (id, name))
         f.write(" INSERT INTO DOCTOR_PATIENT_CHAT (chat_id, doctor_id, patient_id) VALUES (%s, %s, %s);\n" %(id, doc_id, patient_id))
@@ -342,9 +342,6 @@ def create_chat(id):
             for doc in doc_ids:
                 if gen_boolean():
                     f.write("INSERT INTO doctor_chat(chat_id, doctor_id) VALUES (%s, %s);\n" % (id, doc))
-            for amb in all_amb_ids:
-                if gen_boolean():
-                    f.write("INSERT INTO chat_receptionist (chat_id, staff_id) VALUES (%s, %s);\n" % (id, amb))
     if whose == 5:
         if amb_chats == 0:
             create_chat(id=id)
@@ -353,7 +350,7 @@ def create_chat(id):
             name = choice(chats_for_amb)
             f.write("INSERT INTO chat(chat_id, name) VALUES (%s,'%s');\n" % (id, name))
 
-            ambulance_id = sample(amb_ids, 1)
+            ambulance_id = choice(amb_ids)
             receptionist_id = randint(0, num_of_rec)
 
             f.write("INSERT INTO receptionist_ambulance(ambulance_id, receptionist_id) VALUES (%s, %s);\n" % (ambulance_id,
