@@ -1,5 +1,5 @@
 import datetime
-from random import randrange, random
+from random import randrange, random, choice
 
 fem_name = ['Hana', 'Zoya', 'Willie', 'Nettie', 'Kara', 'Lara', 'Halima', 'Laila', 'Alicia', 'Caroline', 'Carla',
             'Julie',
@@ -167,7 +167,7 @@ diagnose_treatment = ['grammidin and urine test', 'painkillers and good sleeping
                       ]
 
 
-def gen_date(min_year=2000, max_year=datetime.datetime.now().year):
+def gen_date(min_year=2008, max_year=datetime.datetime.now().year):
     start = datetime.datetime(min_year, 1, 1, 00, 00, 00)
     years = max_year - min_year + 1
     end = start + datetime.timedelta(days=365 * years)
@@ -199,3 +199,10 @@ def gen_working_hours(mode):
 
 def gen_boolean():
     return randrange(0, 2) == 1
+
+def gen_male_fullname():
+    return f"{choice(male_name)} {choice(surnames)}"
+
+def gen_female_fullname():
+    return f"{choice(fem_name)} {choice(surnames)}"
+    

@@ -8,14 +8,23 @@ where patient_id = $1
   and date_and_time >= now()::date;
 $$ language sql;
 
+create or replace function get_last_patients_appointment(patient_id int) returns setof appointment as
+$$
+select *
+from appointment
+where patient_id = $1
+order by date_and_time desc
+limit 1;
+$$ language sql;
+
 create or replace function first_query(patient_id int, first_letter char(1), second_letter char(1)) returns setof varchar as
 $$
 select name
 from (select name
       from (doctor
                join (
-          select ap_id
-          from get_patients_appointments_today($1) as app) as "$1ai" ON doctor.id = ap_id)) as "d$1a*"
+          select doctor_id
+          from get_last_patients_appointment($1) as app) as "$1ai" ON doctor.id = doctor_id)) as "d$1a*"
 where starts_with(split_part(name, ' ', 1), first_letter)::int +
       starts_with(split_part(name, ' ', 1), second_letter)::int +
       starts_with(split_part(name, ' ', 2), first_letter)::int +
@@ -48,38 +57,35 @@ where patient_id = $1
 $$
     language sql;
 
+create or replace function get_prev_month() returns timestamp as
+$$
+    select cast(date_trunc('month', current_date) as date) - interval '1' month
+$$
+    language sql;
+
 create or replace function third_query() returns patient as
 $$
-select *
-from patient
-where number_of_appointments_between(id,
-                                     (select *
-                                      from date_trunc('month', current_date - interval '1' month)
-                                               as after1),
-                                     (select *
-                                      from date_trunc('month', current_date - interval '1' month + interval '7' day)
-                                               as before1)) >= 2
-  and number_of_appointments_between(id,
-                                     (select *
-                                      from date_trunc('month', current_date - interval '1' month + interval '7' day)
-                                               as after2),
-                                     (select *
-                                      from date_trunc('month', current_date - interval '1' month + interval '14' day)
-                                               as before2)) >= 2
-  and number_of_appointments_between(id,
-                                     (select *
-                                      from date_trunc('month', current_date - interval '1' month + interval '14' day)
-                                               as after3),
-                                     (select *
-                                      from date_trunc('month', current_date - interval '1' month + interval '21' day)
-                                               as before3)) >= 2
-  and number_of_appointments_between(id,
-                                     (select *
-                                      from date_trunc('month', current_date - interval '1' month + interval '21' day)
-                                               as after4),
-                                     (select *
-                                      from date_trunc('month', current_date - interval '1' month + interval '28' day)
-                                               as before4)) >= 2;
+select * from (
+                  select *
+                  from patient
+                  where number_of_appointments_between(
+                                                        id,
+                                                        (select get_prev_month()),
+                                                        (select get_prev_month() + interval '7' day)
+                                                        ) >= 2
+                    and number_of_appointments_between(id,
+                                                       (get_prev_month() + interval '7' day),
+                                                       (select get_prev_month() + interval '14' day)
+                                                        ) >= 2
+                    and number_of_appointments_between(id,
+                                                       (get_prev_month() + interval '14' day),
+                                                       (select get_prev_month() + interval '21' day)
+                                                        ) >= 2
+                    and number_of_appointments_between(id,
+                                                       (get_prev_month() + interval '21' day),
+                                                       (select get_prev_month() + interval '28' day)
+                                                        ) >= 2
+              ) as result3;
 $$
     language sql;
 
@@ -131,7 +137,7 @@ $$
 
 
 -- 5
-create or replace function fifth_query() returns setof doctor as
+create or replace function fifth_query(period int, patients_per_year int, total_patients int) returns setof doctor as
 $$
 SELECT doctor.* /*, patients*/
 FROM (
@@ -143,15 +149,15 @@ FROM (
                            FROM appointment as a,
                                 doctor as d
                            WHERE date_part('year', a.date_and_time) >
-                                 date_part('year', current_date) - 10 -- How many years
+                                 date_part('year', current_date) - period
                              AND a.doctor_id = d.id
                        ) as dp
                   GROUP BY dp.doctor_id, dp.dp
-                  HAVING COUNT(dp.doctor_id) >= 5 -- How many appointments per year
+                  HAVING COUNT(dp.doctor_id) >= patients_per_year
               ) as noapy
          GROUP BY noapy.doctor_id
-         HAVING COUNT(noapy.ct) >= 10 -- Equal to how many years
-            AND SUM(noapy.ct) > 100 -- Num of all patients per this period of time
+         HAVING COUNT(noapy.ct) >= period
+            AND SUM(noapy.ct) > total_patients
      ) as result,
      doctor
 WHERE result.doctor_id = doctor.id

@@ -1,4 +1,3 @@
-from hospital_system.requests.sql_manager import update, execute
 from populator import *
 from random import *
 
@@ -22,9 +21,9 @@ for patient in range(num_of_patients):
     ins_sex = gen_boolean()
 
     if ins_sex:
-        ins_full_name = choice(fem_name) + ' ' + choice(surnames)
+        ins_full_name = gen_female_fullname()
     else:
-        ins_full_name = choice(male_name) + ' ' + choice(surnames)
+        ins_full_name = gen_male_fullname()
 
     ins_age = randint(0, 100)
 
@@ -70,7 +69,7 @@ print("Added", num_of_reg_number, "to DIGITAL_MEDICAL_FILE")
 print("Added", num_of_prev_medical_files, "to NUMBERS_OF_PREV_MEDICAL_FILES")
 
 # ==> Filling DIAGNOSE
-for curr_reg_number in range(num_of_reg_number):
+for curr_reg_number in range(1, num_of_reg_number+1):
     num_of_diagnoses = randint(0, 10)
     for diagnose in range(0, num_of_diagnoses):
         ins_id = choice(diagnose_name)
@@ -85,8 +84,8 @@ for curr_reg_number in range(num_of_reg_number):
         #     0]
 
         ins_patient_id = medfile_against_patient.get(curr_reg_number)
-        if ins_patient_id is None:
-            break
+        # if ins_patient_id is None:
+        #     break
 
         ins_treatment = choice(diagnose_treatment)
 
@@ -98,7 +97,7 @@ print("Finished filling DIAGNOSE")
 f.write('\n')
 
 # ==> Filling MED_TEST
-for curr_reg_number in range(num_of_reg_number):
+for curr_reg_number in range(1, num_of_reg_number+1):
     num_of_tests = randint(0, 3)
     for test in range(0, num_of_tests):
         ins_collection_date = gen_date()
@@ -117,8 +116,8 @@ for curr_reg_number in range(num_of_reg_number):
 
         ins_patient_id = medfile_against_patient.get(curr_reg_number)
 
-        if ins_patient_id is None:
-            break
+        # if ins_patient_id is None:
+        #     break
 
         if ins_results == 'null':
             f.write(
@@ -177,9 +176,9 @@ for staff in range(num_of_staff):
     ins_sex = gen_boolean()
 
     if ins_sex:
-        staff_name = choice(fem_name) + ' ' + choice(surnames)
+        staff_name = gen_female_fullname()
     else:
-        staff_name = choice(male_name) + ' ' + choice(surnames)
+        staff_name = gen_male_fullname()
 
     f.write("INSERT INTO staff(position, name) VALUES ('%s', '%s' );\n" % (ins_staff_position, staff_name))
 
@@ -188,19 +187,20 @@ print("Added", num_of_staff, "to STAFF")
 
 # ==> Filling DOCTOR
 num_of_doctors = randint(10, 30)
+license_ids = sample(range(100000, 999999), num_of_doctors)
 doc_ids = list(range(1, num_of_doctors + 1))
 for doctor in range(num_of_doctors):
     if gen_boolean():
-        ins_full_name = choice(fem_name) + ' ' + choice(surnames)
+        ins_full_name = gen_female_fullname()
     else:
-        ins_full_name = choice(male_name) + ' ' + choice(surnames)
+        ins_full_name = gen_male_fullname()
 
     working_hours_from, working_hours_to = gen_working_hours(randint(1, 3))
     ins_working_hours = working_hours_from.strftime('%H:%M:%S') + "; " + working_hours_to.strftime('%H:%M:%S')
 
     ins_specialization = ', '.join(sample(doc_specialization, randint(1, 3)))
 
-    ins_license_id = randint(100000, 999999)
+    ins_license_id = license_ids.pop()
 
     f.write("INSERT INTO doctor(working_hours, specialization, name, license_id) VALUES ('%s', '%s', '%s', %s);\n" %
             (ins_working_hours, ins_specialization, ins_full_name, ins_license_id))
@@ -232,9 +232,9 @@ num_of_rec = randint(3, 8)
 rec_ids = list(range(1, num_of_rec + 1))
 for rec in range(num_of_rec):
     if gen_boolean():
-        ins_id = choice(fem_name) + " " + choice(surnames)
+        ins_id = gen_female_fullname()
     else:
-        ins_id = choice(male_name) + " " + choice(surnames)
+        ins_id = gen_male_fullname()
 
     working_hours_from, working_hours_to = gen_working_hours(randint(1, 3))
     ins_working_hours = working_hours_from.strftime('%H:%M:%S') + "; " + working_hours_to.strftime('%H:%M:%S')
