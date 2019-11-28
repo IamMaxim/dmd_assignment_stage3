@@ -11,12 +11,13 @@ num_of_patients = 200
 f = open("insert_script.sql", "w+")
 
 snns = create_snn()
-
+patient_names = {}
+pat_ids = list(range(1, num_of_patients+1))
 for patient in range(num_of_patients):
     ins_sex, ins_full_name = gen_sex_and_name()
     snn = snns.pop()
     ins_age = randint(0, 100)
-
+    patient_names[patient+1] = ins_full_name
     f.write("INSERT INTO patient(age, sex, full_name, ssn) VALUES (%s, %s, '%s', %s);\n" % (
     ins_age, ins_sex, ins_full_name, snn))
 
@@ -199,6 +200,7 @@ print("Added", num_of_doctors, "to DOCTOR")
 # ==> Filling AMBULANCE
 num_of_amb = randint(5, 10)
 amb_ids = []
+all_amb_ids = list(range(1, num_of_amb + 1))
 for amb in range(1, num_of_amb + 1):
     ins_assigned = gen_boolean()
 
@@ -284,70 +286,149 @@ print("Added", num_of_doc_inv, "to DOCTOR_INVENTORY")
 
 added_chat_names = []
 
+
+#todo redo chats and add chats with patient using patient_names
+
+
 # ==> Filling CHAT
 # ==> Filling STAFF_CHAT
+num_of_staff_inv = randint(5, 20)
 
-cur_chat_id = 1
-num_of_staff_chat = randint(1, 5)
-chat_ids = list(range(1, num_of_staff_chat + 1))
-for chat_id in range(1, num_of_staff_chat + 1):
-    chat_name = choice(chat_names)
-    f.write("INSERT INTO chat(chat_id, name) VALUES (%s,'%s');\n" % (cur_chat_id, chat_name))
-    chat_names.remove(chat_name)
-    added_chat_names.append(chat_name)
-    for id in staff_ids:
-        if gen_boolean():
-            f.write("INSERT INTO staff_chat(chat_id, staff_id) VALUES (%s, %s);\n" % (cur_chat_id, id))
+#todo refactoring starts here
 
-    cur_chat_id += 1
+num_of_chats = randint(5, 100)
+amb_chats = 5
+gen_chats = 10
+doctor_chats = 10
 
-f.write('\n')
-print("Added", num_of_staff_chat, "to STAFF_CHAT")
+def create_chat(id):
+    whose = randint(1,5)
+    global doctor_chats
+    global gen_chats
+    global amb_chats
+    if whose ==1:
+        if doctor_chats == 0:
+            create_chat(id=id)
+        else:
+            doctor_chats -=1
+            name = choice(chats_for_doctor)
+            f.write("INSERT INTO chat(chat_id, name) VALUES (%s,'%s');\n" % (id, name))
+    if whose == 2:
+        # patient_receptionist
+        rec_id = choice(rec_ids, 1)
+        patient_id = choice(pat_ids, 1)
+        name = f'Chat with {patient_names.get(patient_id)}'
+        f.write("INSERT INTO chat(chat_id, name) VALUES (%s,'%s');\n" % (id, name))
+        f.write("INSERT INTO receptionist_patient(patient_id, receptionist_id) VALUES (%s, %s);\n" % (patient_id,
+                                                                                                  rec_id))
+    if whose == 3:
+        doc_id = choice(doc_ids, 1)
+        patient_id = choice(pat_ids, 1)
+        name = f'Chat with {patient_names.get(patient_id)}'
+        f.write("INSERT INTO chat(chat_id, name) VALUES (%s,'%s');\n" % (id, name))
+        f.write(" INSERT INTO DOCTOR_PATIENT_CHAT (chat_id, doctor_id, patient_id) VALUES (%s, %s, %s);\n" %(id, doc_id, patient_id))
+        #doctor_patient
+    if whose == 4:
+        # general
+        #  todo to end with general chats
+        if gen_chats == 0:
+            create_chat(id=id)
+        else:
+            name = choice(chats_for_everybody)
+            f.write("INSERT INTO chat(chat_id, name) VALUES (%s,'%s');\n" % (id, name))
+            for st_id in staff_ids:
+                if gen_boolean():
+                    f.write("INSERT INTO staff_chat(chat_id, staff_id) VALUES (%s, %s);\n" % (id, st_id))
+            for doc in doc_ids:
+                if gen_boolean():
+                    f.write("INSERT INTO doctor_chat(chat_id, doctor_id) VALUES (%s, %s);\n" % (id, doc))
+            for amb in all_amb_ids:
+                if gen_boolean():
+                    f.write("INSERT INTO chat_receptionist (chat_id, staff_id) VALUES (%s, %s);\n" % (id, amb))
+    if whose == 5:
+        if amb_chats == 0:
+            create_chat(id=id)
+        else:
+            amb_chats -=1
+            name = choice(chats_for_amb)
+            f.write("INSERT INTO chat(chat_id, name) VALUES (%s,'%s');\n" % (id, name))
+
+            ambulance_id = sample(amb_ids, 1)
+            receptionist_id = randint(0, num_of_rec)
+
+            f.write("INSERT INTO receptionist_ambulance(ambulance_id, receptionist_id) VALUES (%s, %s);\n" % (ambulance_id,
+                                                                                                      receptionist_id))
+
+
+for chat_id in range(1, num_of_chats+1):
+    create_chat(chat_id)
+
+print("Added", num_of_chats, 'chats')
+
+#todo refactoring ends here
+
+# cur_chat_id = 1
+# num_of_staff_chat = randint(1, 5)
+# chat_ids = list(range(1, num_of_staff_chat + 1))
+# for chat_id in range(1, num_of_staff_chat + 1):
+#     chat_name = choice(chat_names)
+#     f.write("INSERT INTO chat(chat_id, name) VALUES (%s,'%s');\n" % (cur_chat_id, chat_name))
+#     chat_names.remove(chat_name)
+#     added_chat_names.append(chat_name)
+#     for id in staff_ids:
+#         if gen_boolean():
+#             f.write("INSERT INTO staff_chat(chat_id, staff_id) VALUES (%s, %s);\n" % (cur_chat_id, id))
+#
+#     cur_chat_id += 1
+#
+# f.write('\n')
+# print("Added", num_of_staff_chat, "to STAFF_CHAT")
 
 # ==> Filling CHAT
 # ==> Filling DOCTOR_CHAT
-num_of_doctor_chat = randint(1, 5)
-for chat_id in range(num_of_doctor_chat):
-    curr_chat_name = choice(chat_names)
-    f.write("INSERT INTO chat(chat_id, name) VALUES (%s, '%s');\n" % (cur_chat_id, curr_chat_name))
-    chat_names.remove(curr_chat_name)
-    added_chat_names.append(curr_chat_name)
+# num_of_doctor_chat = randint(1, 5)
+# for chat_id in range(num_of_doctor_chat):
+#     curr_chat_name = choice(chat_names)
+#     f.write("INSERT INTO chat(chat_id, name) VALUES (%s, '%s');\n" % (cur_chat_id, curr_chat_name))
+#     chat_names.remove(curr_chat_name)
+#     added_chat_names.append(curr_chat_name)
+#
+#     ins_chat_id = curr_chat_name
+#     for id in doc_ids:
+#         if gen_boolean():
+#             f.write("INSERT INTO doctor_chat(chat_id, doctor_id) VALUES (%s, %s);\n" % (cur_chat_id, id))
+#
+#     cur_chat_id += 1
+#
+# print("Added", num_of_doctor_chat, "to DOCTOR_CHAT")
+# f.write('\n')
 
-    ins_chat_id = curr_chat_name
-    for id in doc_ids:
-        if gen_boolean():
-            f.write("INSERT INTO doctor_chat(chat_id, doctor_id) VALUES (%s, %s);\n" % (cur_chat_id, id))
-
-    cur_chat_id += 1
-
-print("Added", num_of_doctor_chat, "to DOCTOR_CHAT")
-f.write('\n')
 
 # ==> Filling CHAT
 # ==> Filling CHAT_RECEPTIONIST
-num_of_rec_chat = randint(1, 2)
-for chat_id in range(num_of_rec_chat):
-    curr_chat_name = choice(chat_names)
-    f.write("INSERT INTO chat(chat_id, name) VALUES (%s, '%s');\n" % (cur_chat_id, curr_chat_name))
-    chat_names.remove(curr_chat_name)
-    added_chat_names.append(curr_chat_name)
-
-    ins_chat_id = curr_chat_name
-    for id in rec_ids:
-        if gen_boolean():
-            f.write(
-                "INSERT INTO chat_receptionist(chat_id, receptionist_id) VALUES ('%s', '%s');\n" % (cur_chat_id, id))
-    cur_chat_id += 1
-
-num_of_chats = num_of_staff_chat + num_of_doctor_chat + num_of_rec_chat
-f.write('\n')
-print("Added", num_of_rec_chat, "to CHAT_RECEPTIONIST")
-print("Added", num_of_chats, "to CHAT")
+# num_of_rec_chat = randint(1, 2)
+# for chat_id in range(num_of_rec_chat):
+#     curr_chat_name = choice(chat_names)
+#     f.write("INSERT INTO chat(chat_id, name) VALUES (%s, '%s');\n" % (cur_chat_id, curr_chat_name))
+#     chat_names.remove(curr_chat_name)
+#     added_chat_names.append(curr_chat_name)
+#
+#     ins_chat_id = curr_chat_name
+#     for id in rec_ids:
+#         if gen_boolean():
+#             f.write(
+#                 "INSERT INTO chat_receptionist(chat_id, receptionist_id) VALUES ('%s', '%s');\n" % (cur_chat_id, id))
+#     cur_chat_id += 1
+#
+# num_of_chats = num_of_staff_chat + num_of_doctor_chat + num_of_rec_chat
+# f.write('\n')
+# print("Added", num_of_rec_chat, "to CHAT_RECEPTIONIST")
+# print("Added", num_of_chats, "to CHAT")
 
 # ==> Filling MESSAGES
 for chat_id in range(1, num_of_chats + 1):
     ins_id = chat_id
-    num_of_messages = randint(0, 7)
+    num_of_messages = randint(0, 17)
 
     for message in range(num_of_messages):
         ins_messages = choice(chat_message)
@@ -356,27 +437,27 @@ for chat_id in range(1, num_of_chats + 1):
 
 f.write('\n')
 
-# ==> Filling RECEPTIONIST_AMBULANCE
-busy_ambs = amb_ids
-num_of_rec_amb = len(busy_ambs)
-for amb_i in range(num_of_rec_amb):
-    ins_ambulance_id = busy_ambs[amb_i]
-    ins_receptionist_id = randint(0, num_of_rec)  # choice(execute("SELECT rec_id FROM receptionist"))[0][0]
+# # ==> Filling RECEPTIONIST_AMBULANCE
+# busy_ambs = amb_ids
+# num_of_rec_amb = len(busy_ambs)
+# for amb_i in range(num_of_rec_amb):
+#     ins_ambulance_id = busy_ambs[amb_i]
+#     ins_receptionist_id = randint(0, num_of_rec)
+#
+#     f.write("INSERT INTO receptionist_ambulance(ambulance_id, receptionist_id) VALUES (%s, %s);\n" % (ins_ambulance_id,
+#                                                                                                       ins_receptionist_id))
+#
+# print("Finished filling RECEPTIONIST_AMBULANCE")
+# f.write('\n')
+#
+# # ==> Filling RECEPTIONIST_PATIENT
+# num_of_rec_pat = randint(num_of_patients // 2, num_of_patients)
+# for rec_pat in range(num_of_rec_pat):
+#     ins_patient_id = randint(1, num_of_patients)
+#     ins_receptionist_id = randint(1, num_of_rec)
+#
+#     f.write("INSERT INTO receptionist_patient(patient_id, receptionist_id) VALUES (%s, %s);\n" % (ins_patient_id,
+#                                                                                                   ins_receptionist_id))
 
-    f.write("INSERT INTO receptionist_ambulance(ambulance_id, receptionist_id) VALUES (%s, %s);\n" % (ins_ambulance_id,
-                                                                                                      ins_receptionist_id))
-
-print("Finished filling RECEPTIONIST_AMBULANCE")
-f.write('\n')
-
-# ==> Filling RECEPTIONIST_PATIENT
-num_of_rec_pat = randint(num_of_patients // 2, num_of_patients)
-for rec_pat in range(num_of_rec_pat):
-    ins_patient_id = randint(1, num_of_patients)
-    ins_receptionist_id = randint(1, num_of_rec)
-
-    f.write("INSERT INTO receptionist_patient(patient_id, receptionist_id) VALUES (%s, %s);\n" % (ins_patient_id,
-                                                                                                  ins_receptionist_id))
-
-print("Finished filling RECEPTIONIST_PATIENT")
+# print("Finished filling RECEPTIONIST_PATIENT")
 f.close()

@@ -218,6 +218,7 @@ CREATE TABLE if not exists DOCTOR_CHAT
     PRIMARY KEY (doctor_id, chat_id, id)
 );
 
+-- todo make it general
 CREATE TABLE if not exists CHAT_RECEPTIONIST
 (
     id              serial UNIQUE NOT NULL,
@@ -230,6 +231,24 @@ CREATE TABLE if not exists CHAT_RECEPTIONIST
         REFERENCES RECEPTIONIST (rec_id)
         ON DELETE CASCADE,
     PRIMARY KEY (id, chat_id, receptionist_id)
+);
+
+CREATE TABLE if not exists DOCTOR_PATIENT_CHAT
+(
+    id              serial UNIQUE NOT NULL,
+    chat_id         int           NOT NULL,
+    FOREIGN KEY (chat_id)
+        REFERENCES CHAT (chat_id)
+        ON DELETE CASCADE,
+    patient_id      int           not NULL,
+    FOREIGN KEY (patient_id)
+        REFERENCES PATIENT (id)
+        ON DELETE CASCADE,
+    doctor_id int           NOT NULL,
+    FOREIGN KEY (doctor_id)
+        REFERENCES DOCTOR (id)
+        ON DELETE CASCADE,
+    PRIMARY KEY (id, chat_id)
 );
 
 CREATE TABLE if not exists RECEPTIONIST_AMBULANCE
