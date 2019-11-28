@@ -1,8 +1,7 @@
 import datetime
-from random import randrange, random, choice, randint
+from random import randrange, random, choice, randint, sample
 
 num_of_patients = 200
-
 
 fem_name = ['Hana', 'Zoya', 'Willie', 'Nettie', 'Kara', 'Lara', 'Halima', 'Laila', 'Alicia', 'Caroline', 'Carla',
             'Julie',
@@ -28,6 +27,7 @@ chat_names = ['Reschedule', 'Surgeons', 'Nurses in surgeon', 'Administrative', '
               'regional ambulance', 'ambulances in south district', 'ambulances in north district',
               'ambulances in west district', 'ambulances in east district', 'accounting', 'cleaning service',
               'lawyers']
+
 chat_message = ['hello', 'we need help', 'Mary, come to the 338, please',
                 'We need a cleaning manager in 505',
                 'have a nice day', 'today its turkey in the canteen', 'has anyone diagnosed a new patient?',
@@ -38,6 +38,16 @@ chat_message = ['hello', 'we need help', 'Mary, come to the 338, please',
                 'who gave opiates to Irek James? He has an allergy on this type of painkillers',
                 'Have a nice weekend', 'Dear Mr Rogers, have a nice birthday', 'Thanks',
                 'Who is on duty tonight?', 'John, please look thorough his digital medical file',
+                'According to the shift timetable you had an emergency call on 21th of November. Could you provide me more details about that case please?',
+                'Good day, can we exhange a shifts on 2nd of December my daughter\'\'s birthday is that day. I will take your turn at 3',
+                'I accidentally lost Petrov\'\'s blood analysis results. Can you please check if they are still I laboratory.',
+                'Can you please have a lock on Ivanov\'\'s results. Some strange things happening there.',
+                'Don\'\'t forget about obligatory meeting with head of the hospital tomorrow at 9am.',
+                'I will send you eeg of patient can you have a look and tell me your opinion?',
+                'I would like to request the time in laboratory tomorrow.',
+                'I have a really hard case. Could you please assist me on operation 23th of November. I don\'\'t think I am able to do it alone.',
+                'What is your opinion about this new pills Korpex? Should I recommend them to patients?',
+                'The head of hospital told me that you had a promotion. Congratulations!'
                 ]
 
 amb_loc = [
@@ -65,10 +75,12 @@ doc_specialization = ['Family Physician', 'Internal Medicine Physician', 'Pediat
                       'Ophthalmologist', 'Otolaryngologist', 'Pulmonologist', 'Neurologist', 'Physician Executive',
                       'Radiologist', 'Anesthesiologist', 'Oncologist']
 
-inventory_name = ['cardio pills 1', 'cardio pills 2', 'cardio pills 3', 'cardio pills 4', 'cardio pills 5',
+inventory_name = ['Calcium Antagonists pills', 'antiviral pills', 'contraceptive pills', 'Drotaverinum', 'antibiotics',
                   'EEG', 'fMRI', 'gramidine', 'strepsils', 'paracetamol', 'vitamins', 'ferrum',
-                  'magnesium', 'sedative', 'sleeping pil', 'x-ray', 'pet', 'blood test', 'physiotherapy',
-                  'urine test', 'painkiller', 'noshpa', 'analgetic', 'tranquilizer', 'blood pressure pills'
+                  'magnesium', 'sedative', 'sleeping pil', 'x-ray', 'pet', 'blood tester', 'physiotherapy equipment',
+                  'holter', 'urine test', 'painkiller', 'noshpa', 'analgetic', 'tranquilizer', 'ACE inhibitors',
+                  'Diuretics', 'Beta-blockers', 'Alpha-2 Receptor Agonists', 'modafinil (Provigil)',
+                  'methylphenidate (Ritalin)', 'memantine (Axura)'
                   ]
 
 inventory_supplier = ['General Electrics', 'BAYER AG', 'Roche', 'biocad', 'biogen', 'amgen',
@@ -136,12 +148,12 @@ inventory_instruction = [
         and teenagers, especially if they have a virus such as chicken pox or the flu.'
 ]
 
-analyze_result = ['Good', 'Bad', '*Description in some smart words*']
+analyze_result = ['Good', 'Bad', '4,4 mmol/L ', '10,0 mmol/L', '6,8 mmol/L',
+                  'twice above the norm', 'slightly exceed the norm', 'slightly lower the norm',
+                  'in critically low region']
 
 diagnose_name = [
     'Obesity',
-    'Stupidity',
-    '43th chromosome',
     'Flu',
     'Constipation',
     'Asthma (Pediatric)',
@@ -160,6 +172,11 @@ diagnose_name = [
     'Seizure Disorder',
     'Hearing Loss',
     'Cancer',
+    'AF arrhythmia',
+    'Poisoning',
+    'Insult',
+    'Heart Attack',
+    'Ischemia'
 ]
 
 diagnose_treatment = ['grammidin and urine test', 'painkillers and good sleeping',
@@ -171,33 +188,34 @@ diagnose_treatment = ['grammidin and urine test', 'painkillers and good sleeping
 
 
 def gen_date(min_year=2000, max_year=datetime.datetime.now().year):
-    start = datetime.datetime(min_year, 1, 1, 00, 00, 00)
+    start = datetime.datetime(min_year, 1, 1, 00)
     years = max_year - min_year + 1
     end = start + datetime.timedelta(days=365 * years)
-    return start + (end - start) * random()
+    return (start + (end - start) * random()).replace(second=0, microsecond=0)
 
 
 def gen_date_later(date):
-    return date + datetime.timedelta(days=randrange(3, 1000))
+    return (date + datetime.timedelta(days=randrange(3, 1000)))
 
 
 def gen_working_hours(mode):
+    min = [0, 15, 30, 45]
     if mode == 1:
         time_from = datetime.time(hour=randrange(0, 8),
-                                  minute=randrange(0, 59))
+                                  minute=sample(min, 1)[0])
         time_to = datetime.time(hour=time_from.hour + 8,
-                                minute=time_from.minute)
+                                minute=sample(min, 1)[0])
     elif mode == 2:
         time_from = datetime.time(hour=randrange(8, 16),
                                   minute=randrange(0, 59))
         time_to = datetime.time(hour=time_from.hour + 8,
-                                minute=time_from.minute)
+                                minute=sample(min, 1)[0])
     else:
         time_from = datetime.time(hour=randrange(16, 24),
-                                  minute=randrange(0, 59))
+                                  minute=sample(min, 1)[0])
         time_to = datetime.time(hour=time_from.hour + 8 - 24,
-                                minute=time_from.minute)
-    return time_from, time_to
+                                minute=sample(min, 1)[0])
+    return time_from.replace(second=0, microsecond=0), time_to.replace(second=0, microsecond=0)
 
 
 def gen_boolean():
@@ -220,3 +238,9 @@ def create_snn(num=num_of_patients):
     while len(snns) <= num:
         snns.add(randint(100000, 1000000))
     return snns
+
+
+
+a= gen_date().date()
+print(a)
+print(gen_date_later(a))
