@@ -6,6 +6,7 @@ CREATE TABLE if not exists PATIENT
     age       int          NOT NULL,
     sex       boolean      NOT NULL, -- 0 is men, 1 woman
     id        serial PRIMARY KEY,
+    ssn           int UNIQUE NOT NULL,
     full_name varchar(255) NOT NULL
 );
 
@@ -132,7 +133,6 @@ CREATE TABLE if not exists APPOINTMENT
     rec_id        int       NOT NULL,
     doctor_id     int       NOT NULL,
     ap_id         serial UNIQUE,
-    ssn           int UNIQUE NOT NULL,
     date_and_time timestamp NOT NULL,
     is_home_visit bool NOT NULL default FALSE,
     FOREIGN KEY (patient_id)
