@@ -215,3 +215,12 @@ FROM (
 WHERE result.doctor_id = doctor.id
 
 $$ language sql;
+
+
+create or replace function fifth_query() returns setof doctor as
+$$
+
+
+
+$$ language sql;
+
