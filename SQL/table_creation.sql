@@ -132,6 +132,7 @@ CREATE TABLE if not exists APPOINTMENT
     rec_id        int       NOT NULL,
     doctor_id     int       NOT NULL,
     ap_id         serial UNIQUE,
+    ssn           int UNIQUE NOT NULL,
     date_and_time timestamp NOT NULL,
     FOREIGN KEY (patient_id)
         REFERENCES PATIENT (id)

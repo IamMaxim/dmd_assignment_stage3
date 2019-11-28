@@ -1,5 +1,8 @@
 import datetime
-from random import randrange, random, choice
+from random import randrange, random, choice, randint
+
+num_of_patients = 200
+
 
 fem_name = ['Hana', 'Zoya', 'Willie', 'Nettie', 'Kara', 'Lara', 'Halima', 'Laila', 'Alicia', 'Caroline', 'Carla',
             'Julie',
@@ -210,3 +213,10 @@ def gen_sex_and_name():
         full_name = f'{choice(male_name)} {choice(surnames)}'
 
     return sex, full_name
+
+
+def create_snn(num=num_of_patients):
+    snns = set()
+    while len(snns) <= num:
+        snns.add(randint(100000, 1000000))
+    return snns
