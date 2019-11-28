@@ -17,29 +17,42 @@ order by date_and_time desc
 limit 1;
 $$ language sql;
 
-create or replace function get_data_for_first_query(out p_id int, out d_name varchar(255)) as
+
+create type data_for_first_query as (p_id int, d_name varchar(255));
+
+create or replace function get_data_for_first_query() returns setof data_for_first_query as
 $$
-select (p.id, d.name)
+select p.id, d.name
 from ((appointment join patient p on appointment.patient_id = p.id)
          join doctor d on appointment.doctor_id = d.id);
 $$
     language sql;
 
+-- create or replace function first_query(patient_id int, first_letter char(1), second_letter char(1)) returns setof varchar as
+-- $$
+-- select name
+-- from (select name
+--       from (doctor
+--                join (
+--           select doctor_id
+--           from get_last_patients_appointment($1) as app) as "$1ai" ON doctor.id = doctor_id)) as "d$1a*"
+-- where starts_with(split_part(name, ' ', 1), first_letter)::int +
+--       starts_with(split_part(name, ' ', 1), second_letter)::int +
+--       starts_with(split_part(name, ' ', 2), first_letter)::int +
+--       starts_with(split_part(name, ' ', 2), second_letter)::int = 1
+-- $$
+--     language sql;
+
 create or replace function first_query(patient_id int, first_letter char(1), second_letter char(1)) returns setof varchar as
 $$
-select name
-from (select name
-      from (doctor
-               join (
-          select doctor_id
-          from get_last_patients_appointment($1) as app) as "$1ai" ON doctor.id = doctor_id)) as "d$1a*"
-where starts_with(split_part(name, ' ', 1), first_letter)::int +
-      starts_with(split_part(name, ' ', 1), second_letter)::int +
-      starts_with(split_part(name, ' ', 2), first_letter)::int +
-      starts_with(split_part(name, ' ', 2), second_letter)::int = 1
+select distinct d_name
+from get_data_for_first_query()
+where p_id = $1 and starts_with(split_part(d_name, ' ', 1), first_letter)::int +
+                    starts_with(split_part(d_name, ' ', 1), second_letter)::int +
+                    starts_with(split_part(d_name, ' ', 2), first_letter)::int +
+                    starts_with(split_part(d_name, ' ', 2), second_letter)::int = 1
 $$
     language sql;
-
 
 -- 2
 create type second_query_result as (timeslot timestamp, count bigint);

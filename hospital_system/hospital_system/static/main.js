@@ -29,7 +29,12 @@ function populate() {
 
 function doFirstRequest() {
     appendMessage('first_query_log', 'Going to execute the first request...');
-    performRequest("SELECT * FROM first_query(0, 'A', 'B')",
+
+    let p_id = $('#fq_name').val();
+    let first_letter = $('#fq_fl').val();
+    let second_letter = $('#fq_sl').val();
+
+    performRequest(`SELECT * FROM first_query(${p_id}, ${first_letter}, ${second_letter})`,
         (msg) => appendMessage('first_query_log', msg))
 }
 
