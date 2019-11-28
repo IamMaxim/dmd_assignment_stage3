@@ -33,7 +33,7 @@ CREATE TABLE if not exists DIAGNOSE
 (
     name          varchar(255)  NOT NULL,
     di_id         serial UNIQUE NOT NULL,
-    get_well_date timestamp     NOT NULL,
+    get_well_date timestamp,
     found_date    timestamp     NOT NULL,
     reg_number    int           NOT NULL,
     patient_id    int           NOT NULL,
