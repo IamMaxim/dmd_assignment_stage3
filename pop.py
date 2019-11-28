@@ -11,11 +11,12 @@ num_of_patients = 200
 f = open("insert_script.sql", "w+")
 
 snns = create_snn()
-
+patient_names = {}
 for patient in range(num_of_patients):
     ins_sex, ins_full_name = gen_sex_and_name()
     snn = snns.pop()
     ins_age = randint(0, 100)
+    patient_names[patient+1] = ins_full_name
 
     f.write("INSERT INTO patient(age, sex, full_name, snn) VALUES (%s, %s, '%s', %s);\n" % (
         ins_age, ins_sex, ins_full_name, snn))
@@ -295,6 +296,7 @@ num_of_chats = randint(5, 100)
 amb_chats = 5
 gen_chats = 10
 doctor_chats = 10
+pat_ids = list(range(1, num_of_patients+1))
 
 def create_chat(id):
     whose = randint(1,5)
