@@ -64,6 +64,7 @@ from appointment
 where date_and_time >= date_trunc('year', current_date - interval '1' year)
   and date_and_time < date_trunc('year', current_date)
 group by appointment.date_and_time
+order by count(appointment) desc
 $$ language sql;
 
 
