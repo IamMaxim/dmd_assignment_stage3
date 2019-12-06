@@ -5,24 +5,15 @@ VALUES (33, 2, 1, '2019-10-30 10:38:44.882913');
 INSERT INTO appointment(patient_id, rec_id, doctor_id, date_and_time)
 VALUES (100, 2, 9, '2019-11-15 13:38:44.882913');
 
-INSERT INTO appointment(patient_id, rec_id, doctor_id, date_and_time)
-VALUES (100, 2, 9, '2019-10-29 13:38:44.882913');
-INSERT INTO appointment(patient_id, rec_id, doctor_id, date_and_time)
-VALUES (100, 2, 9, '2019-10-5 13:38:44.882913');
-INSERT INTO appointment(patient_id, rec_id, doctor_id, date_and_time)
-VALUES (100, 2, 9, '2019-10-6 13:38:44.882913');
-INSERT INTO appointment(patient_id, rec_id, doctor_id, date_and_time)
-VALUES (100, 2, 9, '2019-10-12 13:38:44.882913');
-INSERT INTO appointment(patient_id, rec_id, doctor_id, date_and_time)
-VALUES (100, 2, 9, '2019-10-13 13:38:44.882913');
-INSERT INTO appointment(patient_id, rec_id, doctor_id, date_and_time)
-VALUES (100, 2, 9, '2019-10-19 13:38:44.882913');
-INSERT INTO appointment(patient_id, rec_id, doctor_id, date_and_time)
-VALUES (100, 2, 9, '2019-10-20 13:38:44.882913');
-INSERT INTO appointment(patient_id, rec_id, doctor_id, date_and_time)
-VALUES (100, 2, 9, '2019-10-26 13:38:44.882913');
-INSERT INTO appointment(patient_id, rec_id, doctor_id, date_and_time)
-VALUES (100, 2, 9, '2019-10-27 13:38:44.882913');
+INSERT INTO appointment(patient_id, rec_id, doctor_id, date_and_time) VALUES (100, 2, 9, '2019-11-29 13:38:44.882913');
+INSERT INTO appointment(patient_id, rec_id, doctor_id, date_and_time) VALUES (100, 2, 9, '2019-11-5 13:38:44.882913');
+INSERT INTO appointment(patient_id, rec_id, doctor_id, date_and_time) VALUES (100, 2, 9, '2019-11-6 13:38:44.882913');
+INSERT INTO appointment(patient_id, rec_id, doctor_id, date_and_time) VALUES (100, 2, 9, '2019-11-12 13:38:44.882913');
+INSERT INTO appointment(patient_id, rec_id, doctor_id, date_and_time) VALUES (100, 2, 9, '2019-11-13 13:38:44.882913');
+INSERT INTO appointment(patient_id, rec_id, doctor_id, date_and_time) VALUES (100, 2, 9, '2019-11-19 13:38:44.882913');
+INSERT INTO appointment(patient_id, rec_id, doctor_id, date_and_time) VALUES (100, 2, 9, '2019-11-20 13:38:44.882913');
+INSERT INTO appointment(patient_id, rec_id, doctor_id, date_and_time) VALUES (100, 2, 9, '2019-11-26 13:38:44.882913');
+INSERT INTO appointment(patient_id, rec_id, doctor_id, date_and_time) VALUES (100, 2, 9, '2019-11-27 13:38:44.882913');
 
 -- 1
 INSERT INTO appointment(patient_id, rec_id, doctor_id, date_and_time, is_home_visit) VALUES (30, 2, 25, '2019-10-27 13:38:44.882913', true);

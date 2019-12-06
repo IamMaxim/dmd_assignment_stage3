@@ -37,7 +37,7 @@ CREATE TABLE if not exists DIAGNOSE
     found_date    timestamp     NOT NULL,
     reg_number    int           NOT NULL,
     patient_id    int           NOT NULL,
-    treatment     varchar(1023) NOT NULL, --add to erd
+    treatment     varchar(1023) NOT NULL,
     FOREIGN KEY (reg_number, patient_id)
         REFERENCES DIGITAL_MEDICAL_FILE (reg_number, patient_id)
         ON DELETE CASCADE,
@@ -46,7 +46,7 @@ CREATE TABLE if not exists DIAGNOSE
 
 CREATE TABLE if not exists MED_TEST
 (
-    res_id            serial UNIQUE NOT NULL, --to add to ERD
+    res_id            serial UNIQUE NOT NULL,
     collection_date   timestamp     NOT NULL,
     results_available boolean       NOT NULL,
     results           varchar(1023),
@@ -152,10 +152,10 @@ CREATE TABLE if not exists STAFF_INVENTORY
 (
     id           serial,
     staff_id     int NOT NULL,
+    inventory_id int NOT NULL,
     FOREIGN KEY (staff_id)
         REFERENCES STAFF (st_id)
         ON DELETE CASCADE,
-    inventory_id int NOT NULL,
     FOREIGN KEY (inventory_id)
         REFERENCES INVENTORY (item_id)
         ON DELETE CASCADE,
